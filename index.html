@@ -3,19 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TabSite</title>
+    <title>Наша команда</title>
     <style>
       :root {
-        --bg: #0f172a;
-        --panel: #111827;
-        --panel-soft: #1f2937;
-        --primary: #60a5fa;
-        --primary-strong: #2563eb;
-        --accent: #a78bfa;
+        --bg1: #0f172a;
+        --bg2: #111827;
+        --panel: #1f2937;
+        --panel-soft: #0b1220;
+        --primary: #7dd3fc;
+        --secondary: #a78bfa;
+        --accent: #34d399;
         --text: #e5e7eb;
-        --muted: #94a3b8;
+        --muted: #cbd5e1;
         --border: rgba(148, 163, 184, 0.25);
-        --success: #34d399;
       }
 
       * {
@@ -25,77 +25,72 @@
       body {
         margin: 0;
         min-height: 100vh;
-        font-family: Arial, Helvetica, sans-serif;
-        background: linear-gradient(135deg, #020817, #111827 45%, #1e293b);
-        color: var(--text);
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
         padding: 24px;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, var(--bg1), var(--bg2));
+        color: var(--text);
       }
 
       .app {
-        width: min(980px, 100%);
+        width: min(1000px, 100%);
         background: rgba(15, 23, 42, 0.9);
         border: 1px solid var(--border);
-        border-radius: 24px;
-        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+        border-radius: 22px;
         overflow: hidden;
+        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
       }
 
       .header {
-        background: linear-gradient(90deg, rgba(37, 99, 235, 0.25), rgba(167, 139, 250, 0.2));
+        background: linear-gradient(90deg, rgba(125, 211, 252, 0.18), rgba(167, 139, 250, 0.2));
         padding: 28px 32px 18px;
         border-bottom: 1px solid var(--border);
       }
 
       .header h1 {
         margin: 0 0 8px;
-        font-size: clamp(1.8rem, 3vw, 2.8rem);
-        letter-spacing: 0.04em;
+        font-size: clamp(2rem, 4vw, 3rem);
       }
 
       .header p {
         margin: 0;
         color: var(--muted);
-        font-size: 1rem;
       }
 
       .tabs {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 12px;
         padding: 18px 24px 0;
-        background: rgba(17, 24, 39, 0.92);
+        background: rgba(15, 23, 42, 0.95);
       }
 
       .tab-button {
-        appearance: none;
         border: 1px solid transparent;
-        background: rgba(148, 163, 184, 0.08);
+        background: rgba(148, 163, 184, 0.12);
         color: var(--text);
-        border-radius: 999px;
         padding: 12px 18px;
-        font-size: 0.96rem;
-        font-weight: 600;
+        border-radius: 999px;
         cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 700;
         transition: 0.2s ease;
       }
 
       .tab-button:hover {
-        border-color: rgba(96, 165, 250, 0.6);
-        transform: translateY(-1px);
+        border-color: rgba(125, 211, 252, 0.7);
       }
 
       .tab-button.active {
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        color: #08111f;
-        box-shadow: 0 10px 25px rgba(96, 165, 250, 0.3);
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: #0f172a;
+        box-shadow: 0 8px 18px rgba(125, 211, 252, 0.3);
       }
 
-      .tab-content {
+      .content {
         padding: 28px 24px 30px;
-        background: rgba(15, 23, 42, 0.82);
       }
 
       .tab-panel {
@@ -112,138 +107,87 @@
         to { opacity: 1; transform: translateY(0); }
       }
 
-      .hero {
+      .profile {
         display: grid;
-        grid-template-columns: 1.5fr 1fr;
-        gap: 22px;
+        grid-template-columns: 260px 1fr;
+        gap: 24px;
         align-items: center;
       }
 
-      .card {
-        background: rgba(31, 41, 55, 0.9);
+      .avatar {
+        width: 220px;
+        height: 220px;
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        font-weight: bold;
+        background: linear-gradient(135deg, rgba(125, 211, 252, 0.18), rgba(167, 139, 250, 0.3));
+        border: 1px solid var(--border);
+        box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.05);
+      }
+
+      .info {
+        background: rgba(31, 41, 55, 0.8);
         border: 1px solid var(--border);
         border-radius: 18px;
         padding: 22px;
       }
 
-      .eyebrow {
+      .role {
         display: inline-block;
-        padding: 7px 12px;
-        margin-bottom: 14px;
-        background: rgba(96, 165, 250, 0.15);
-        border: 1px solid rgba(96, 165, 250, 0.4);
+        margin-bottom: 12px;
+        padding: 8px 12px;
         border-radius: 999px;
-        color: #bfdbfe;
-        font-size: 0.8rem;
+        background: rgba(52, 211, 153, 0.12);
+        border: 1px solid rgba(52, 211, 153, 0.4);
+        color: #bbf7d0;
+        font-size: 0.78rem;
         font-weight: 700;
-        letter-spacing: 0.08em;
         text-transform: uppercase;
+        letter-spacing: 0.08em;
       }
 
       h2 {
         margin: 0 0 12px;
-        font-size: clamp(1.5rem, 2vw, 2.2rem);
+        font-size: clamp(1.8rem, 2.8vw, 2.6rem);
       }
 
-      p {
+      .info p {
+        margin: 8px 0;
         color: var(--muted);
         line-height: 1.7;
       }
 
-      .mini-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(150px, 1fr));
-        gap: 14px;
+      .skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
         margin-top: 18px;
       }
 
-      .mini-item {
-        background: rgba(15, 23, 42, 0.85);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 16px;
+      .skills span {
+        background: rgba(125, 211, 252, 0.12);
+        border: 1px solid rgba(125, 211, 252, 0.35);
+        color: #dbeafe;
+        padding: 7px 12px;
+        border-radius: 999px;
+        font-size: 0.82rem;
       }
 
-      .mini-item strong {
-        display: block;
-        margin-bottom: 6px;
-        color: var(--text);
-      }
-
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 15px;
-        margin-top: 16px;
-      }
-
-      .stat {
-        background: linear-gradient(180deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 20px 14px;
-        text-align: center;
-      }
-
-      .stat b {
-        display: block;
-        font-size: 1.8rem;
-        color: var(--primary);
-        margin-bottom: 6px;
-      }
-
-      .services, .contact-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 18px;
-        margin-top: 12px;
-      }
-
-      .service, .contact-card {
-        background: rgba(31, 41, 55, 0.85);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 18px;
-      }
-
-      .service h3, .contact-card h3 {
-        margin-top: 0;
-        margin-bottom: 12px;
-        font-size: 1.2rem;
-      }
-
-      .price {
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: var(--success);
-        margin: 10px 0;
-      }
-
-      .button {
-        display: inline-block;
-        margin-top: 14px;
-        padding: 12px 18px;
-        border-radius: 10px;
-        text-decoration: none;
-        color: #08111f;
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        font-weight: 700;
-      }
-
-      @media (max-width: 760px) {
-        .hero,
-        .services,
-        .contact-grid,
-        .stats {
+      @media (max-width: 700px) {
+        .profile {
           grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        .avatar {
+          margin: 0 auto;
         }
 
         .header,
-        .tab-content {
-          padding-left: 18px;
-          padding-right: 18px;
-        }
-
+        .content,
         .tabs {
           padding-left: 18px;
           padding-right: 18px;
@@ -254,123 +198,82 @@
   <body>
     <div class="app">
       <div class="header">
-        <h1>Studio Bright</h1>
-        <p>Сайт с красивыми вкладками и современным дизайном</p>
+        <h1>Наша команда</h1>
+        <p>Каждый участник отвечает за важную часть проекта</p>
       </div>
 
-      <nav class="tabs" aria-label="Навигация по вкладкам">
-        <button class="tab-button active" data-tab="home" type="button">Главная</button>
-        <button class="tab-button" data-tab="services" type="button">Услуги</button>
-        <button class="tab-button" data-tab="pricing" type="button">Цены</button>
-        <button class="tab-button" data-tab="contacts" type="button">Контакты</button>
+      <nav class="tabs" aria-label="Вкладки команды">
+        <button class="tab-button active" type="button" data-tab="masha">Мария</button>
+        <button class="tab-button" type="button" data-tab="ivan">Иван</button>
+        <button class="tab-button" type="button" data-tab="olga">Ольга</button>
+        <button class="tab-button" type="button" data-tab="dima">Дмитрий</button>
       </nav>
 
-      <main class="tab-content">
-        <section class="tab-panel active" id="home">
-          <div class="hero">
-            <div>
-              <span class="eyebrow">Новый подход</span>
-              <h2>Создаём решения, которые приносят результат</h2>
-              <p>
-                Мы помогаем бизнесу, стартапам и проектам выделяться, делая пространство для роста,
-                брендинга и современных цифровых сервисов.
-              </p>
-              <div class="mini-grid">
-                <div class="mini-item">
-                  <strong>Быстро</strong>
-                  <span>Запуск в кратчайшие сроки</span>
-                </div>
-                <div class="mini-item">
-                  <strong>Удобно</strong>
-                  <span>Простые решения для клиентов</span>
-                </div>
-                <div class="mini-item">
-                  <strong>Качественно</strong>
-                  <span>Внимание к деталям</span>
-                </div>
-                <div class="mini-item">
-                  <strong>Гибко</strong>
-                  <span>Индивидуальный подход</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="card">
-              <h3>Почему выбирают нас</h3>
-              <div class="stats">
-                <div class="stat">
-                  <b>120+</b>
-                  <span>проектов</span>
-                </div>
-                <div class="stat">
-                  <b>4.9</b>
-                  <span>рейтинг</span>
-                </div>
-                <div class="stat">
-                  <b>24/7</b>
-                  <span>поддержка</span>
-                </div>
+      <main class="content">
+        <section class="tab-panel active" id="masha">
+          <div class="profile">
+            <div class="avatar">М</div>
+            <div class="info">
+              <span class="role">Лидер проекта</span>
+              <h2>Мария</h2>
+              <p>Мария отвечает за планирование работы команды и следит, чтобы все задачи были выполнены вовремя.</p>
+              <p>Она организует встречи, помогает распределять обязанности и поддерживает команду в трудные моменты.</p>
+              <div class="skills">
+                <span>организация</span>
+                <span>коммуникация</span>
+                <span>планирование</span>
               </div>
             </div>
           </div>
         </section>
 
-        <section class="tab-panel" id="services">
-          <h2>Наши услуги</h2>
-          <div class="services">
-            <article class="service">
-              <h3>Веб-дизайн</h3>
-              <p>Создаём стильные и понятные интерфейсы, которые подчёркивают ценность вашего продукта.</p>
-            </article>
-            <article class="service">
-              <h3>Разработка</h3>
-              <p>Строим современные цифровые решения под задачи бизнеса и удобство пользователей.</p>
-            </article>
-            <article class="service">
-              <h3>Маркетинг</h3>
-              <p>Помогаем привлекать аудиторию, удерживать клиентов и усиливать узнаваемость бренда.</p>
-            </article>
+        <section class="tab-panel" id="ivan">
+          <div class="profile">
+            <div class="avatar">И</div>
+            <div class="info">
+              <span class="role">Дизайнер</span>
+              <h2>Иван</h2>
+              <p>Иван создаёт внешний вид сайта: выбирает цвета, формы, расположение элементов и делает всё максимально удобным.</p>
+              <p>Он следит за тем, чтобы проект выглядел красиво, современно и привлекал внимание пользователей.</p>
+              <div class="skills">
+                <span>дизайн</span>
+                <span>креатив</span>
+                <span>Figma</span>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section class="tab-panel" id="pricing">
-          <h2>Тарифы</h2>
-          <div class="services">
-            <article class="service">
-              <h3>Старт</h3>
-              <div class="price">от 15 000 ₽</div>
-              <p>Подходит для небольших проектов и первых шагов.</p>
-              <a href="#" class="button">Выбрать</a>
-            </article>
-            <article class="service">
-              <h3>Бизнес</h3>
-              <div class="price">от 35 000 ₽</div>
-              <p>Оптимальный набор функций для развивающегося бизнеса.</p>
-              <a href="#" class="button">Выбрать</a>
-            </article>
-            <article class="service">
-              <h3>Премиум</h3>
-              <div class="price">от 70 000 ₽</div>
-              <p>Полный цикл: стратегия, дизайн, разработка и поддержка.</p>
-              <a href="#" class="button">Выбрать</a>
-            </article>
+        <section class="tab-panel" id="olga">
+          <div class="profile">
+            <div class="avatar">О</div>
+            <div class="info">
+              <span class="role">Разработчик</span>
+              <h2>Ольга</h2>
+              <p>Ольга пишет код и делает сайт рабочим: добавляет кнопки, вкладки, анимации и всё, что нужно для удобной работы.</p>
+              <p>Она отвечает за техническую часть проекта и помогает сделать страницу функциональной и стабильной.</p>
+              <div class="skills">
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section class="tab-panel" id="contacts">
-          <h2>Контакты</h2>
-          <div class="contact-grid">
-            <div class="contact-card">
-              <h3>Email</h3>
-              <p>hello@studio-bright.ru</p>
-            </div>
-            <div class="contact-card">
-              <h3>Телефон</h3>
-              <p>+7 (999) 123-45-67</p>
-            </div>
-            <div class="contact-card">
-              <h3>Адрес</h3>
-              <p>Москва, ул. Технологическая, 12</p>
+        <section class="tab-panel" id="dima">
+          <div class="profile">
+            <div class="avatar">Д</div>
+            <div class="info">
+              <span class="role">Исследователь</span>
+              <h2>Дмитрий</h2>
+              <p>Дмитрий собирает информацию, анализирует задачу и помогает команде находить лучшие идеи и решения.</p>
+              <p>Он ищет материалы, проверяет факты и помогает сделать проект более содержательным и интересным.</p>
+              <div class="skills">
+                <span>поиск</span>
+                <span>анализ</span>
+                <span>исследование</span>
+              </div>
             </div>
           </div>
         </section>
@@ -378,20 +281,15 @@
     </div>
 
     <script>
-      const tabButtons = document.querySelectorAll('.tab-button');
-      const tabPanels = document.querySelectorAll('.tab-panel');
+      const buttons = document.querySelectorAll('.tab-button');
+      const panels = document.querySelectorAll('.tab-panel');
 
-      tabButtons.forEach((button) => {
+      buttons.forEach((button) => {
         button.addEventListener('click', () => {
           const target = button.dataset.tab;
 
-          tabButtons.forEach((btn) => {
-            btn.classList.toggle('active', btn === button);
-          });
-
-          tabPanels.forEach((panel) => {
-            panel.classList.toggle('active', panel.id === target);
-          });
+          buttons.forEach((btn) => btn.classList.toggle('active', btn === button));
+          panels.forEach((panel) => panel.classList.toggle('active', panel.id === target));
         });
       });
     </script>
