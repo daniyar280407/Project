@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TabSite</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --panel: #111827;
+        --panel-soft: #1f2937;
+        --primary: #60a5fa;
+        --primary-strong: #2563eb;
+        --accent: #a78bfa;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --border: rgba(148, 163, 184, 0.25);
+        --success: #34d399;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #020817, #111827 45%, #1e293b);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      .app {
+        width: min(980px, 100%);
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(90deg, rgba(37, 99, 235, 0.25), rgba(167, 139, 250, 0.2));
+        padding: 28px 32px 18px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .header h1 {
+        margin: 0 0 8px;
+        font-size: clamp(1.8rem, 3vw, 2.8rem);
+        letter-spacing: 0.04em;
+      }
+
+      .header p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1rem;
+      }
+
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 18px 24px 0;
+        background: rgba(17, 24, 39, 0.92);
+      }
+
+      .tab-button {
+        appearance: none;
+        border: 1px solid transparent;
+        background: rgba(148, 163, 184, 0.08);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 12px 18px;
+        font-size: 0.96rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .tab-button:hover {
+        border-color: rgba(96, 165, 250, 0.6);
+        transform: translateY(-1px);
+      }
+
+      .tab-button.active {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: #08111f;
+        box-shadow: 0 10px 25px rgba(96, 165, 250, 0.3);
+      }
+
+      .tab-content {
+        padding: 28px 24px 30px;
+        background: rgba(15, 23, 42, 0.82);
+      }
+
+      .tab-panel {
+        display: none;
+        animation: fadeIn 0.25s ease;
+      }
+
+      .tab-panel.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 22px;
+        align-items: center;
+      }
+
+      .card {
+        background: rgba(31, 41, 55, 0.9);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 22px;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        padding: 7px 12px;
+        margin-bottom: 14px;
+        background: rgba(96, 165, 250, 0.15);
+        border: 1px solid rgba(96, 165, 250, 0.4);
+        border-radius: 999px;
+        color: #bfdbfe;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: clamp(1.5rem, 2vw, 2.2rem);
+      }
+
+      p {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .mini-item {
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+      }
+
+      .mini-item strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--text);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 15px;
+        margin-top: 16px;
+      }
+
+      .stat {
+        background: linear-gradient(180deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px 14px;
+        text-align: center;
+      }
+
+      .stat b {
+        display: block;
+        font-size: 1.8rem;
+        color: var(--primary);
+        margin-bottom: 6px;
+      }
+
+      .services, .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 12px;
+      }
+
+      .service, .contact-card {
+        background: rgba(31, 41, 55, 0.85);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px;
+      }
+
+      .service h3, .contact-card h3 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        font-size: 1.2rem;
+      }
+
+      .price {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--success);
+        margin: 10px 0;
+      }
+
+      .button {
+        display: inline-block;
+        margin-top: 14px;
+        padding: 12px 18px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: #08111f;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        font-weight: 700;
+      }
+
+      @media (max-width: 760px) {
+        .hero,
+        .services,
+        .contact-grid,
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .header,
+        .tab-content {
+          padding-left: 18px;
+          padding-right: 18px;
+        }
+
+        .tabs {
+          padding-left: 18px;
+          padding-right: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="header">
+        <h1>Studio Bright</h1>
+        <p>Сайт с красивыми вкладками и современным дизайном</p>
+      </div>
+
+      <nav class="tabs" aria-label="Навигация по вкладкам">
+        <button class="tab-button active" data-tab="home" type="button">Главная</button>
+        <button class="tab-button" data-tab="services" type="button">Услуги</button>
+        <button class="tab-button" data-tab="pricing" type="button">Цены</button>
+        <button class="tab-button" data-tab="contacts" type="button">Контакты</button>
+      </nav>
+
+      <main class="tab-content">
+        <section class="tab-panel active" id="home">
+          <div class="hero">
+            <div>
+              <span class="eyebrow">Новый подход</span>
+              <h2>Создаём решения, которые приносят результат</h2>
+              <p>
+                Мы помогаем бизнесу, стартапам и проектам выделяться, делая пространство для роста,
+                брендинга и современных цифровых сервисов.
+              </p>
+              <div class="mini-grid">
+                <div class="mini-item">
+                  <strong>Быстро</strong>
+                  <span>Запуск в кратчайшие сроки</span>
+                </div>
+                <div class="mini-item">
+                  <strong>Удобно</strong>
+                  <span>Простые решения для клиентов</span>
+                </div>
+                <div class="mini-item">
+                  <strong>Качественно</strong>
+                  <span>Внимание к деталям</span>
+                </div>
+                <div class="mini-item">
+                  <strong>Гибко</strong>
+                  <span>Индивидуальный подход</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Почему выбирают нас</h3>
+              <div class="stats">
+                <div class="stat">
+                  <b>120+</b>
+                  <span>проектов</span>
+                </div>
+                <div class="stat">
+                  <b>4.9</b>
+                  <span>рейтинг</span>
+                </div>
+                <div class="stat">
+                  <b>24/7</b>
+                  <span>поддержка</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="services">
+          <h2>Наши услуги</h2>
+          <div class="services">
+            <article class="service">
+              <h3>Веб-дизайн</h3>
+              <p>Создаём стильные и понятные интерфейсы, которые подчёркивают ценность вашего продукта.</p>
+            </article>
+            <article class="service">
+              <h3>Разработка</h3>
+              <p>Строим современные цифровые решения под задачи бизнеса и удобство пользователей.</p>
+            </article>
+            <article class="service">
+              <h3>Маркетинг</h3>
+              <p>Помогаем привлекать аудиторию, удерживать клиентов и усиливать узнаваемость бренда.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="pricing">
+          <h2>Тарифы</h2>
+          <div class="services">
+            <article class="service">
+              <h3>Старт</h3>
+              <div class="price">от 15 000 ₽</div>
+              <p>Подходит для небольших проектов и первых шагов.</p>
+              <a href="#" class="button">Выбрать</a>
+            </article>
+            <article class="service">
+              <h3>Бизнес</h3>
+              <div class="price">от 35 000 ₽</div>
+              <p>Оптимальный набор функций для развивающегося бизнеса.</p>
+              <a href="#" class="button">Выбрать</a>
+            </article>
+            <article class="service">
+              <h3>Премиум</h3>
+              <div class="price">от 70 000 ₽</div>
+              <p>Полный цикл: стратегия, дизайн, разработка и поддержка.</p>
+              <a href="#" class="button">Выбрать</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="tab-panel" id="contacts">
+          <h2>Контакты</h2>
+          <div class="contact-grid">
+            <div class="contact-card">
+              <h3>Email</h3>
+              <p>hello@studio-bright.ru</p>
+            </div>
+            <div class="contact-card">
+              <h3>Телефон</h3>
+              <p>+7 (999) 123-45-67</p>
+            </div>
+            <div class="contact-card">
+              <h3>Адрес</h3>
+              <p>Москва, ул. Технологическая, 12</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabPanels = document.querySelectorAll('.tab-panel');
+
+      tabButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const target = button.dataset.tab;
+
+          tabButtons.forEach((btn) => {
+            btn.classList.toggle('active', btn === button);
+          });
+
+          tabPanels.forEach((panel) => {
+            panel.classList.toggle('active', panel.id === target);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
