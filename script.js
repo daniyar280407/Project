@@ -2,17 +2,17 @@
 // ЭЛЕМЕНТТЕРДІ АЛУ
 // ==========================================
 
-
 // Жоғарғы вкладкалар
 const buttons = document.querySelectorAll(".tab-button");
-
 
 // Төменгі карточкалар
 const cards = document.querySelectorAll(".team-card");
 
-
 // Барлық ақпараттық бөлімдер
 const panels = document.querySelectorAll(".tab-panel");
+
+// Төменгі карточкалар блогы
+const teamCards = document.querySelector(".team-cards");
 
 
 // ==========================================
@@ -41,7 +41,7 @@ function openTab(target) {
 
 
   // ----------------------------------------
-  // ТӨМЕНГІ КАРТОЧКАЛАРДЫ АУЫСТЫРУ
+  // ТӨМЕНГІ КАРТОЧКАЛАРДЫҢ ACTIVE КҮЙІ
   // ----------------------------------------
 
   cards.forEach((card) => {
@@ -77,6 +77,21 @@ function openTab(target) {
 
   });
 
+
+  // ----------------------------------------
+  // ТӨМЕНГІ КАРТОЧКАЛАРДЫ КӨРСЕТУ / ЖАСЫРУ
+  // ----------------------------------------
+
+  if (target === "home") {
+
+    teamCards.style.display = "grid";
+
+  } else {
+
+    teamCards.style.display = "none";
+
+  }
+
 }
 
 
@@ -88,12 +103,7 @@ buttons.forEach((button) => {
 
   button.addEventListener("click", () => {
 
-    // Батырманың data-tab мәнін аламыз
-
     const target = button.dataset.tab;
-
-
-    // Сол бөлімді ашамыз
 
     openTab(target);
 
@@ -110,12 +120,7 @@ cards.forEach((card) => {
 
   card.addEventListener("click", () => {
 
-    // Карточканың data-tab мәнін аламыз
-
     const target = card.dataset.tab;
-
-
-    // Сәйкес вкладканы ашамыз
 
     openTab(target);
 
@@ -128,7 +133,7 @@ cards.forEach((card) => {
 // БАСТАПҚЫ БӨЛІМ
 // ==========================================
 
-// Сайт ашылған кезде
-// "Басты Бет" автоматты түрде ашыладыfrfrf
+// Сайт ашылған кезде "Басты Бет" ашылады
+// және төменгі карточкалар көрсетіледі
 
 openTab("home");
