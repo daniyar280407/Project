@@ -1,297 +1,306 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Наша команда</title>
-    <style>
-      :root {
-        --bg1: #0f172a;
-        --bg2: #111827;
-        --panel: #1f2937;
-        --panel-soft: #0b1220;
-        --primary: #7dd3fc;
-        --secondary: #a78bfa;
-        --accent: #34d399;
-        --text: #e5e7eb;
-        --muted: #cbd5e1;
-        --border: rgba(148, 163, 184, 0.25);
-      }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      * {
-        box-sizing: border-box;
-      }
+  <title>Наша команда</title>
 
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 24px;
-        font-family: Arial, Helvetica, sans-serif;
-        background: linear-gradient(135deg, var(--bg1), var(--bg2));
-        color: var(--text);
-      }
+  <link rel="stylesheet" href="style.css">
+</head>
 
-      .app {
-        width: min(1000px, 100%);
-        background: rgba(15, 23, 42, 0.9);
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        overflow: hidden;
-        box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
-      }
+<body>
 
-      .header {
-        background: linear-gradient(90deg, rgba(125, 211, 252, 0.18), rgba(167, 139, 250, 0.2));
-        padding: 28px 32px 18px;
-        border-bottom: 1px solid var(--border);
-      }
+  <div class="app">
 
-      .header h1 {
-        margin: 0 0 8px;
-        font-size: clamp(2rem, 4vw, 3rem);
-      }
+    <!-- HEADER -->
+    <header class="header">
+      <h1>Наша команда</h1>
+      <p>Каждый участник отвечает за важную часть проекта</p>
+    </header>
 
-      .header p {
-        margin: 0;
-        color: var(--muted);
-      }
 
-      .tabs {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        padding: 18px 24px 0;
-        background: rgba(15, 23, 42, 0.95);
-      }
+    <!-- ВЕРХНИЕ ВКЛАДКИ -->
+    <nav class="tabs" aria-label="Вкладки команды">
 
-      .tab-button {
-        border: 1px solid transparent;
-        background: rgba(148, 163, 184, 0.12);
-        color: var(--text);
-        padding: 12px 18px;
-        border-radius: 999px;
-        cursor: pointer;
-        font-size: 0.95rem;
-        font-weight: 700;
-        transition: 0.2s ease;
-      }
+      <button
+        class="tab-button active"
+        type="button"
+        data-tab="masha"
+      >
+        Мария
+      </button>
 
-      .tab-button:hover {
-        border-color: rgba(125, 211, 252, 0.7);
-      }
+      <button
+        class="tab-button"
+        type="button"
+        data-tab="ivan"
+      >
+        Иван
+      </button>
 
-      .tab-button.active {
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: #0f172a;
-        box-shadow: 0 8px 18px rgba(125, 211, 252, 0.3);
-      }
+      <button
+        class="tab-button"
+        type="button"
+        data-tab="olga"
+      >
+        Ольга
+      </button>
 
-      .content {
-        padding: 28px 24px 30px;
-      }
+      <button
+        class="tab-button"
+        type="button"
+        data-tab="dima"
+      >
+        Дмитрий
+      </button>
 
-      .tab-panel {
-        display: none;
-        animation: fadeIn 0.25s ease;
-      }
+    </nav>
 
-      .tab-panel.active {
-        display: block;
-      }
 
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(8px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
+    <!-- ОСНОВНОЕ СОДЕРЖИМОЕ -->
+    <main class="content">
 
-      .profile {
-        display: grid;
-        grid-template-columns: 260px 1fr;
-        gap: 24px;
-        align-items: center;
-      }
+      <!-- МАРИЯ -->
+      <section
+        class="tab-panel active"
+        id="masha"
+      >
 
-      .avatar {
-        width: 220px;
-        height: 220px;
-        border-radius: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 4rem;
-        font-weight: bold;
-        background: linear-gradient(135deg, rgba(125, 211, 252, 0.18), rgba(167, 139, 250, 0.3));
-        border: 1px solid var(--border);
-        box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.05);
-      }
+        <div class="profile">
 
-      .info {
-        background: rgba(31, 41, 55, 0.8);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 22px;
-      }
-
-      .role {
-        display: inline-block;
-        margin-bottom: 12px;
-        padding: 8px 12px;
-        border-radius: 999px;
-        background: rgba(52, 211, 153, 0.12);
-        border: 1px solid rgba(52, 211, 153, 0.4);
-        color: #bbf7d0;
-        font-size: 0.78rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
-
-      h2 {
-        margin: 0 0 12px;
-        font-size: clamp(1.8rem, 2.8vw, 2.6rem);
-      }
-
-      .info p {
-        margin: 8px 0;
-        color: var(--muted);
-        line-height: 1.7;
-      }
-
-      .skills {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 18px;
-      }
-
-      .skills span {
-        background: rgba(125, 211, 252, 0.12);
-        border: 1px solid rgba(125, 211, 252, 0.35);
-        color: #dbeafe;
-        padding: 7px 12px;
-        border-radius: 999px;
-        font-size: 0.82rem;
-      }
-
-      @media (max-width: 700px) {
-        .profile {
-          grid-template-columns: 1fr;
-          text-align: center;
-        }
-
-        .avatar {
-          margin: 0 auto;
-        }
-
-        .header,
-        .content,
-        .tabs {
-          padding-left: 18px;
-          padding-right: 18px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="app">
-      <div class="header">
-        <h1>Наша команда</h1>
-        <p>Каждый участник отвечает за важную часть проекта</p>
-      </div>
-
-      <nav class="tabs" aria-label="Вкладки команды">
-        <button class="tab-button active" type="button" data-tab="masha">Мария</button>
-        <button class="tab-button" type="button" data-tab="ivan">Иван</button>
-        <button class="tab-button" type="button" data-tab="olga">Ольга</button>
-        <button class="tab-button" type="button" data-tab="dima">Дмитрий</button>
-      </nav>
-
-      <main class="content">
-        <section class="tab-panel active" id="masha">
-          <div class="profile">
-            <div class="avatar">М</div>
-            <div class="info">
-              <span class="role">Лидер проекта</span>
-              <h2>Мария</h2>
-              <p>Мария отвечает за планирование работы команды и следит, чтобы все задачи были выполнены вовремя.</p>
-              <p>Она организует встречи, помогает распределять обязанности и поддерживает команду в трудные моменты.</p>
-              <div class="skills">
-                <span>организация</span>
-                <span>коммуникация</span>
-                <span>планирование</span>
-              </div>
-            </div>
+          <div class="avatar">
+            М
           </div>
-        </section>
 
-        <section class="tab-panel" id="ivan">
-          <div class="profile">
-            <div class="avatar">И</div>
-            <div class="info">
-              <span class="role">Дизайнер</span>
-              <h2>Иван</h2>
-              <p>Иван создаёт внешний вид сайта: выбирает цвета, формы, расположение элементов и делает всё максимально удобным.</p>
-              <p>Он следит за тем, чтобы проект выглядел красиво, современно и привлекал внимание пользователей.</p>
-              <div class="skills">
-                <span>дизайн</span>
-                <span>креатив</span>
-                <span>Figma</span>
-              </div>
-            </div>
-          </div>
-        </section>
+          <div class="info">
 
-        <section class="tab-panel" id="olga">
-          <div class="profile">
-            <div class="avatar">О</div>
-            <div class="info">
-              <span class="role">Разработчик</span>
-              <h2>Ольга</h2>
-              <p>Ольга пишет код и делает сайт рабочим: добавляет кнопки, вкладки, анимации и всё, что нужно для удобной работы.</p>
-              <p>Она отвечает за техническую часть проекта и помогает сделать страницу функциональной и стабильной.</p>
-              <div class="skills">
-                <span>HTML</span>
-                <span>CSS</span>
-                <span>JavaScript</span>
-              </div>
-            </div>
-          </div>
-        </section>
+            <span class="role">
+              Лидер проекта
+            </span>
 
-        <section class="tab-panel" id="dima">
-          <div class="profile">
-            <div class="avatar">Д</div>
-            <div class="info">
-              <span class="role">Исследователь</span>
-              <h2>Дмитрий</h2>
-              <p>Дмитрий собирает информацию, анализирует задачу и помогает команде находить лучшие идеи и решения.</p>
-              <p>Он ищет материалы, проверяет факты и помогает сделать проект более содержательным и интересным.</p>
-              <div class="skills">
-                <span>поиск</span>
-                <span>анализ</span>
-                <span>исследование</span>
-              </div>
+            <h2>Мария</h2>
+
+            <p>
+              Мария отвечает за планирование работы команды
+              и следит, чтобы все задачи были выполнены вовремя.
+            </p>
+
+            <p>
+              Она организует встречи, помогает распределять
+              обязанности и поддерживает команду в трудные моменты.
+            </p>
+
+            <div class="skills">
+              <span>организация</span>
+              <span>коммуникация</span>
+              <span>планирование</span>
             </div>
+
           </div>
-        </section>
-      </main>
+
+        </div>
+
+      </section>
+
+
+      <!-- ИВАН -->
+      <section
+        class="tab-panel"
+        id="ivan"
+      >
+
+        <div class="profile">
+
+          <div class="avatar">
+            И
+          </div>
+
+          <div class="info">
+
+            <span class="role">
+              Дизайнер
+            </span>
+
+            <h2>Иван</h2>
+
+            <p>
+              Иван создаёт внешний вид сайта: выбирает цвета,
+              формы, расположение элементов и делает всё
+              максимально удобным.
+            </p>
+
+            <p>
+              Он следит за тем, чтобы проект выглядел красиво,
+              современно и привлекал внимание пользователей.
+            </p>
+
+            <div class="skills">
+              <span>дизайн</span>
+              <span>креатив</span>
+              <span>Figma</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ОЛЬГА -->
+      <section
+        class="tab-panel"
+        id="olga"
+      >
+
+        <div class="profile">
+
+          <div class="avatar">
+            О
+          </div>
+
+          <div class="info">
+
+            <span class="role">
+              Разработчик
+            </span>
+
+            <h2>Ольга</h2>
+
+            <p>
+              Ольга пишет код и делает сайт рабочим:
+              добавляет кнопки, вкладки, анимации и всё,
+              что нужно для удобной работы.
+            </p>
+
+            <p>
+              Она отвечает за техническую часть проекта
+              и помогает сделать страницу функциональной
+              и стабильной.
+            </p>
+
+            <div class="skills">
+              <span>HTML</span>
+              <span>CSS</span>
+              <span>JavaScript</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ДМИТРИЙ -->
+      <section
+        class="tab-panel"
+        id="dima"
+      >
+
+        <div class="profile">
+
+          <div class="avatar">
+            Д
+          </div>
+
+          <div class="info">
+
+            <span class="role">
+              Исследователь
+            </span>
+
+            <h2>Дмитрий</h2>
+
+            <p>
+              Дмитрий собирает информацию, анализирует задачу
+              и помогает команде находить лучшие идеи и решения.
+            </p>
+
+            <p>
+              Он ищет материалы, проверяет факты и помогает
+              сделать проект более содержательным и интересным.
+            </p>
+
+            <div class="skills">
+              <span>поиск</span>
+              <span>анализ</span>
+              <span>исследование</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <!-- НИЖНИЕ КАРТОЧКИ -->
+    <div class="team-cards">
+
+      <!-- МАРИЯ -->
+      <button
+        class="team-card active"
+        type="button"
+        data-tab="masha"
+      >
+
+        <div class="team-card-avatar">
+          М
+        </div>
+
+        <h3>Мария</h3>
+
+        <p>Лидер проекта</p>
+
+      </button>
+
+
+      <!-- ИВАН -->
+      <button
+        class="team-card"
+        type="button"
+        data-tab="ivan"
+      >
+
+        <div class="team-card-avatar">
+          И
+        </div>
+
+        <h3>Иван</h3>
+
+        <p>Дизайнер</p>
+
+      </button>
+
+
+      <!-- ОЛЬГА -->
+      <button
+        class="team-card"
+        type="button"
+        data-tab="olga"
+      >
+
+        <div class="team-card-avatar">
+          О
+        </div>
+
+        <h3>Ольга</h3>
+
+        <p>Разработчик</p>
+
+      </button>
+
     </div>
 
-    <script>
-      const buttons = document.querySelectorAll('.tab-button');
-      const panels = document.querySelectorAll('.tab-panel');
+  </div>
 
-      buttons.forEach((button) => {
-        button.addEventListener('click', () => {
-          const target = button.dataset.tab;
 
-          buttons.forEach((btn) => btn.classList.toggle('active', btn === button));
-          panels.forEach((panel) => panel.classList.toggle('active', panel.id === target));
-        });
-      });
-    </script>
-  </body>
+  <!-- JAVASCRIPT -->
+  <script src="script.js"></script>
+
+</body>
 </html>

@@ -1,0 +1,545 @@
+:root {
+  --bg1: #0f172a;
+  --bg2: #111827;
+
+  --panel: #1f2937;
+  --panel-soft: #0b1220;
+
+  --primary: #7dd3fc;
+  --secondary: #a78bfa;
+
+  --accent: #34d399;
+
+  --text: #e5e7eb;
+  --muted: #cbd5e1;
+
+  --border: rgba(148, 163, 184, 0.25);
+}
+
+
+/* =========================
+   ОБЩИЕ СТИЛИ
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+  margin: 0;
+
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 24px;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  background: linear-gradient(
+    135deg,
+    var(--bg1),
+    var(--bg2)
+  );
+
+  color: var(--text);
+}
+
+
+/* =========================
+   ОСНОВНОЙ БЛОК
+========================= */
+
+.app {
+  width: min(1000px, 100%);
+
+  background: rgba(15, 23, 42, 0.9);
+
+  border: 1px solid var(--border);
+
+  border-radius: 22px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 30px 50px rgba(0, 0, 0, 0.3);
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  background: linear-gradient(
+    90deg,
+    rgba(125, 211, 252, 0.18),
+    rgba(167, 139, 250, 0.2)
+  );
+
+  padding: 28px 32px 18px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+
+.header h1 {
+  margin: 0 0 8px;
+
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+
+.header p {
+  margin: 0;
+
+  color: var(--muted);
+}
+
+
+/* =========================
+   ВЕРХНИЕ ВКЛАДКИ
+========================= */
+
+.tabs {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  padding: 18px 24px 0;
+
+  background: rgba(15, 23, 42, 0.95);
+}
+
+
+.tab-button {
+  border: 1px solid transparent;
+
+  background: rgba(148, 163, 184, 0.12);
+
+  color: var(--text);
+
+  padding: 12px 18px;
+
+  border-radius: 999px;
+
+  cursor: pointer;
+
+  font-size: 0.95rem;
+
+  font-weight: 700;
+
+  transition: 0.2s ease;
+}
+
+
+.tab-button:hover {
+  border-color: rgba(125, 211, 252, 0.7);
+
+  transform: translateY(-1px);
+}
+
+
+.tab-button.active {
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--secondary)
+  );
+
+  color: #0f172a;
+
+  box-shadow:
+    0 8px 18px rgba(125, 211, 252, 0.3);
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.content {
+  padding: 28px 24px 30px;
+}
+
+
+.tab-panel {
+  display: none;
+
+  animation: fadeIn 0.25s ease;
+}
+
+
+.tab-panel.active {
+  display: block;
+}
+
+
+/* Анимация */
+
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+
+}
+
+
+/* =========================
+   ПРОФИЛЬ
+========================= */
+
+.profile {
+  display: grid;
+
+  grid-template-columns: 260px 1fr;
+
+  gap: 24px;
+
+  align-items: center;
+}
+
+
+/* Аватар */
+
+.avatar {
+  width: 220px;
+  height: 220px;
+
+  border-radius: 24px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 4rem;
+
+  font-weight: bold;
+
+  background: linear-gradient(
+    135deg,
+    rgba(125, 211, 252, 0.18),
+    rgba(167, 139, 250, 0.3)
+  );
+
+  border: 1px solid var(--border);
+
+  box-shadow:
+    inset 0 0 25px rgba(255, 255, 255, 0.05);
+}
+
+
+/* Информация */
+
+.info {
+  background: rgba(31, 41, 55, 0.8);
+
+  border: 1px solid var(--border);
+
+  border-radius: 18px;
+
+  padding: 22px;
+}
+
+
+/* Роль */
+
+.role {
+  display: inline-block;
+
+  margin-bottom: 12px;
+
+  padding: 8px 12px;
+
+  border-radius: 999px;
+
+  background: rgba(52, 211, 153, 0.12);
+
+  border: 1px solid rgba(52, 211, 153, 0.4);
+
+  color: #bbf7d0;
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.08em;
+}
+
+
+/* Заголовок */
+
+h2 {
+  margin: 0 0 12px;
+
+  font-size: clamp(
+    1.8rem,
+    2.8vw,
+    2.6rem
+  );
+}
+
+
+/* Текст */
+
+.info p {
+  margin: 8px 0;
+
+  color: var(--muted);
+
+  line-height: 1.7;
+}
+
+
+/* =========================
+   НАВЫКИ
+========================= */
+
+.skills {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 18px;
+}
+
+
+.skills span {
+  background: rgba(
+    125,
+    211,
+    252,
+    0.12
+  );
+
+  border: 1px solid rgba(
+    125,
+    211,
+    252,
+    0.35
+  );
+
+  color: #dbeafe;
+
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  font-size: 0.82rem;
+}
+
+
+/* =========================
+   НИЖНИЕ КАРТОЧКИ
+========================= */
+
+.team-cards {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 16px;
+
+  padding: 0 24px 30px;
+}
+
+
+.team-card {
+  border: 1px solid var(--border);
+
+  background: rgba(
+    31,
+    41,
+    55,
+    0.8
+  );
+
+  color: var(--text);
+
+  border-radius: 18px;
+
+  padding: 20px;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  transition: 0.25s ease;
+}
+
+
+/* Наведение */
+
+.team-card:hover {
+  transform: translateY(-5px);
+
+  border-color:
+    rgba(125, 211, 252, 0.7);
+
+  box-shadow:
+    0 12px 25px rgba(
+      0,
+      0,
+      0,
+      0.25
+    );
+}
+
+
+/* Активная карточка */
+
+.team-card.active {
+  border-color: var(--primary);
+
+  background: linear-gradient(
+    135deg,
+    rgba(125, 211, 252, 0.12),
+    rgba(167, 139, 250, 0.15)
+  );
+
+  box-shadow:
+    0 8px 20px rgba(
+      125,
+      211,
+      252,
+      0.12
+    );
+}
+
+
+/* Аватар карточки */
+
+.team-card-avatar {
+  width: 55px;
+  height: 55px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 14px;
+
+  margin-bottom: 14px;
+
+  font-size: 1.5rem;
+
+  font-weight: bold;
+
+  background: linear-gradient(
+    135deg,
+    rgba(125, 211, 252, 0.25),
+    rgba(167, 139, 250, 0.35)
+  );
+
+  border: 1px solid
+    rgba(148, 163, 184, 0.15);
+}
+
+
+/* Имя */
+
+.team-card h3 {
+  margin: 0 0 6px;
+
+  font-size: 1.2rem;
+}
+
+
+/* Должность */
+
+.team-card p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.9rem;
+}
+
+
+/* =========================
+   АДАПТАЦИЯ ДЛЯ ТЕЛЕФОНА
+========================= */
+
+@media (max-width: 700px) {
+
+  body {
+    padding: 12px;
+  }
+
+
+  .header {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+
+  .tabs {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+
+  .content {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+
+  /* Профиль становится вертикальным */
+
+  .profile {
+    grid-template-columns: 1fr;
+
+    text-align: center;
+  }
+
+
+  .avatar {
+    margin: 0 auto;
+  }
+
+
+  /* Карточки становятся друг под другом */
+
+  .team-cards {
+    grid-template-columns: 1fr;
+
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+
+  .team-card {
+    text-align: center;
+  }
+
+
+  .team-card-avatar {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+}
