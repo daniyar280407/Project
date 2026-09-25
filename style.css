@@ -313,8 +313,142 @@ h2 {
 
 
 /* =========================
+   БЕКАМАН ПРИФИЛІ
+========================= */
+
+.bekaman-profile {
+  position: relative;
+}
+
+.bekaman-profile::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 28px;
+  background: linear-gradient(
+    135deg,
+    rgba(125, 211, 252, 0.12),
+    rgba(167, 139, 250, 0.18),
+    rgba(52, 211, 153, 0.12)
+  );
+  z-index: 0;
+  filter: blur(18px);
+}
+
+.bekaman-profile > * {
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-bekaman {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(125, 211, 252, 0.6);
+  box-shadow: 0 20px 35px rgba(125, 211, 252, 0.18);
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.28), rgba(167, 139, 250, 0.45));
+}
+
+.avatar-bekaman::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+}
+
+.avatar-bekaman span {
+  position: relative;
+  z-index: 1;
+  font-size: 4rem;
+  color: #f8fafc;
+  text-shadow: 0 5px 18px rgba(125, 211, 252, 0.35);
+}
+
+.info-bekaman {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.96),
+    rgba(17, 24, 39, 0.92),
+    rgba(76, 29, 149, 0.2)
+  );
+  border-color: rgba(167, 139, 250, 0.4);
+  box-shadow: 0 18px 32px rgba(76, 29, 149, 0.15);
+}
+
+.role-bekaman {
+  background: rgba(167, 139, 250, 0.15);
+  border-color: rgba(196, 181, 253, 0.5);
+  color: #ddd6fe;
+}
+
+.profile-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 14px;
+  margin: 18px 0 16px;
+}
+
+.meta-item {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.meta-item h3 {
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  color: #a5f3fc;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.meta-item p {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.highlight-box {
+  margin: 20px 0;
+  padding: 16px 18px;
+  border-left: 4px solid #7dd3fc;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(125, 211, 252, 0.12),
+    rgba(167, 139, 250, 0.08)
+  );
+  color: #e2e8f0;
+  line-height: 1.75;
+}
+
+.detail-list {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0;
+  display: grid;
+  gap: 10px;
+}
+
+.detail-list li {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.detail-list strong {
+  color: #f8fafc;
+}
+
+
+/* =========================
    ДАҒДЫЛАР
 ========================= */
+
 
 .skills {
   display: flex;
