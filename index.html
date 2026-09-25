@@ -7,6 +7,19 @@
   <title>Біздің команда</title>
 
   <link rel="stylesheet" href="style.css">
+  <style>
+    body { flex-direction: column; }
+    .task-demo { padding: 20px; }
+    .task-demo p { margin: 16px 0; line-height: 1.6; }
+    #target-element { color: #38bdf8; }
+    #changing-paragraph { cursor: pointer; }
+    .task-demo button { padding: 12px 18px; border: 0; border-radius: 8px; background: #7dd3fc; color: #0f172a; font-size: 16px; cursor: pointer; }
+    .task-demo :focus-visible { outline: 3px solid #fbbf24; outline-offset: 4px; }
+    .task-demo .demo-element { margin-top: 20px; padding: 18px; border: 2px solid #64748b; border-radius: 8px; }
+    .task-demo .demo-element.active { background: #14532d; border-color: #34d399; }
+    body > .new-div { width: min(1000px, 100%); margin-top: 16px; padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); }
+    body > .new-div[hidden] { display: none; }
+  </style>
 </head>
 
 <body>
@@ -94,7 +107,7 @@
         <div class="profile">
 
           <div class="avatar">
-            <span>Б</span>
+            <img src="https://th.bing.com/th/id/OIP.NPczwebYAHGilmbbcNyodAHaHa?w=189&h=189&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3" alt="Басты бет">
           </div>
 
           <div class="info">
@@ -218,16 +231,16 @@
         id="bekaman"
       >
 
-        <div class="profile bekaman-profile">
+        <div class="profile">
 
-          <div class="avatar avatar-bekaman">
-            <span>Б</span>
+          <div class="avatar">
+            Б
           </div>
 
-          <div class="info info-bekaman">
+          <div class="info">
 
-            <span class="role role-bekaman">
-              Frontend Developer
+            <span class="role">
+              Команда мүшесі
             </span>
 
             <h2>
@@ -272,12 +285,9 @@
 
             <div class="skills">
 
-              <span>UI/UX</span>
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>JavaScript</span>
-              <span>React</span>
-              <span>адаптивтілік</span>
+              <span>идея</span>
+              <span>шығармашылық</span>
+              <span>даму</span>
 
             </div>
 
@@ -369,65 +379,28 @@
             1 ТАПСЫРМА
       ========================== -->
 
-      <section
-        class="tab-panel"
-        id="task1"
-      >
-        <div style="padding: 20px; color: #fff;">
+            <section class="tab-panel" id="task1">
+        <div class="task-demo">
           <h2>1 тапсырма</h2>
-                    <!-- 1. ID бойынша мәтіні өзгеретін элемент -->
-          <p id="target-element" style="margin: 15px 0; color: #38bdf8;">
-            Бұл бастапқы мәтін
-          </p>
-
-          <!-- 3. Жойылатын элемент -->
-          <div class="old-element" style="padding: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 5px; margin: 15px 0;">
-            Бұл жойылатын элемент (.old-element)
-          </div>
+          <p id="target-element">Бұл бастапқы мәтін</p>
+          <div class="old-element">Бұл жойылатын элемент (.old-element)</div>
+          <p>Абзацты басыңыз: мәтін түсі мен қаріп өлшемі өзгереді.</p>
+          <div id="task1-content"></div>
         </div>
       </section>
-
-      <div id="task1-content" style="padding: 20px; color: #fff;"></div>
 
 
       <!-- =========================
             2 ТАПСЫРМА
       ========================== -->
 
-      <section
-        class="tab-panel"
-        id="task2"
-      >
-
-        <div class="profile">
-
-          <div class="avatar">
-            2
-          </div>
-
-          <div class="info">
-
-            <span class="role">
-              Жоба бөлімі
-            </span>
-
-            <h2>
-              2 тапсырма
-            </h2>
-
-            <p>
-              Бұл жерде 2-ші тапсырма бойынша ақпарат, кодтар немесе есептер орналасады.
-            </p>
-
-            <div class="skills">
-              <span>тапсырма 2</span>
-              <span>орындау</span>
-            </div>
-
-          </div>
-
+            <section class="tab-panel" id="task2">
+        <div class="task-demo">
+          <h2>2 тапсырма. Элемент кластарын басқару</h2>
+          <div id="class-element" class="demo-element example">Кластары басқарылатын элемент</div>
+          <p><button id="toggle-active" type="button" aria-controls="class-element" aria-pressed="false">active класын ауыстыру</button></p>
+          <p id="class-list" aria-live="polite"></p>
         </div>
-
       </section>
 
     </main>
@@ -515,6 +488,5 @@
 
   <!-- JAVASCRIPT -->
   <script src="script.js"></script>
-
 </body>
 </html>

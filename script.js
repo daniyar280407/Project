@@ -1,156 +1,201 @@
 // ==========================================
 // ЭЛЕМЕНТТЕРДІ АЛУ
 // ==========================================
+
+// Жоғарғы вкладкалар
 const buttons = document.querySelectorAll(".tab-button");
+
+// Төменгі карточкалар
 const cards = document.querySelectorAll(".team-card");
+
+// Барлық ақпараттық бөлімдер
 const panels = document.querySelectorAll(".tab-panel");
+
+// Төменгі карточкалар блогы
 const teamCards = document.querySelector(".team-cards");
+
 
 // ==========================================
 // ВКЛАДКАНЫ АШУ ФУНКЦИЯСЫ
 // ==========================================
+
 function openTab(target) {
+
+  // ----------------------------------------
+  // ЖОҒАРҒЫ ВКЛАДКАЛАРДЫ АУЫСТЫРУ
+  // ----------------------------------------
+
   buttons.forEach((button) => {
+
     if (button.dataset.tab === target) {
+
       button.classList.add("active");
+
     } else {
+
       button.classList.remove("active");
+
     }
+
   });
+
+
+  // ----------------------------------------
+  // ТӨМЕНГІ КАРТОЧКАЛАРДЫҢ ACTIVE КҮЙІ
+  // ----------------------------------------
 
   cards.forEach((card) => {
+
     if (card.dataset.tab === target) {
+
       card.classList.add("active");
+
     } else {
+
       card.classList.remove("active");
+
     }
+
   });
+
+
+  // ----------------------------------------
+  // АҚПАРАТТЫҚ БӨЛІМДІ АУЫСТЫРУ
+  // ----------------------------------------
 
   panels.forEach((panel) => {
+
     if (panel.id === target) {
+
       panel.classList.add("active");
+
     } else {
+
       panel.classList.remove("active");
+
     }
+
   });
 
-  function openTab(target) {
-  buttons.forEach((button) => {
-    if (button.dataset.tab === target) {
-      button.classList.add("active");
-    } else {
-      button.classList.remove("active");
-    }
-  });
 
-  cards.forEach((card) => {
-    if (card.dataset.tab === target) {
-      card.classList.add("active");
-    } else {
-      card.classList.remove("active");
-    }
-  });
-
-  panels.forEach((panel) => {
-    if (panel.id === target) {
-      panel.classList.add("active");
-    } else {
-      panel.classList.remove("active");
-    }
-  });
-
-  // new-div тек "1 тапсырма" вкладкасында көрінеді
-  const newDivEl = document.getElementById("new-div-element");
-  if (newDivEl) {
-    newDivEl.style.display = target === "task1" ? "block" : "none";
-  }
+  // ----------------------------------------
+  // ТӨМЕНГІ КАРТОЧКАЛАРДЫ КӨРСЕТУ / ЖАСЫРУ
+  // ----------------------------------------
 
   if (target === "home") {
+
     teamCards.style.display = "grid";
+
   } else {
+
     teamCards.style.display = "none";
+
   }
-}
-  if (target === "home") {
-    teamCards.style.display = "grid";
-  } else {
-    teamCards.style.display = "none";
-  }
+
 }
 
-// Жоғарғы вкладкаларды басу
+
+// ==========================================
+// ЖОҒАРҒЫ ВКЛАДКАЛАРДЫ БАСУ
+// ==========================================
+
 buttons.forEach((button) => {
+
   button.addEventListener("click", () => {
-    openTab(button.dataset.tab);
+
+    const target = button.dataset.tab;
+
+    openTab(target);
+
   });
+
 });
 
-// Төменгі карточкаларды басу
+
+// ==========================================
+// ТӨМЕНГІ КАРТОЧКАЛАРДЫ БАСУ
+// ==========================================
+
 cards.forEach((card) => {
+
   card.addEventListener("click", () => {
-    openTab(card.dataset.tab);
+
+    const target = card.dataset.tab;
+
+    openTab(target);
+
   });
+
 });
 
-// Бастапқы бөлімді ашу
+
+// ==========================================
+// БАСТАПҚЫ БӨЛІМ
+// ==========================================
+
+// Сайт ашылған кезде "Басты Бет" ашылады
+// және төменгі карточкалар көрсетіледі
+
 openTab("home");
 
+// DOM тапсырмалары
+(() => {
+      // 1 тапсырма: ID бойынша мәтінді өзгерту.
+      document.getElementById('target-element').textContent = 'Сәлем, әлем!';
+      document.querySelector('#task1 .old-element').remove();
 
-// ==========================================
-// 1 ТАПСЫРМАҒА АРНАЛҒАН JAVASCRIPT ТАПСЫРМАЛАРЫ
-// ==========================================
+      const paragraph = document.createElement('p');
+      paragraph.id = 'changing-paragraph';
+      paragraph.textContent = 'Бұл ауыспалы абзац';
+      paragraph.tabIndex = 0;
+      paragraph.setAttribute('role', 'button');
+      paragraph.setAttribute('aria-pressed', 'false');
+      document.getElementById('task1-content').appendChild(paragraph);
 
-// 1. ID бойынша элементті тауып, оның мәтінін «Сәлем, әлем!» деп өзгерту
-const targetEl = document.getElementById("target-element");
-if (targetEl) {
-  targetEl.textContent = "Сәлем, әлем!";
-}
+      let changed = false;
+      function changeParagraphStyle() {
+        changed = !changed;
+        paragraph.style.color = changed ? '#fda4af' : '';
+        paragraph.style.fontSize = changed ? '26px' : '';
+        paragraph.setAttribute('aria-pressed', String(changed));
+      }
+      paragraph.addEventListener('click', changeParagraphStyle);
+      paragraph.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          changeParagraphStyle();
+        }
+      });
 
+      // Тапсырма шарты бойынша div тікелей body соңына қосылады.
+      const newDiv = document.createElement('div');
+      newDiv.className = 'new-div';
+      newDiv.textContent = 'Мен жаңа элементпін';
+      document.body.appendChild(newDiv);
 
+      // Бұл нәтиже тек 1 тапсырма вкладкасында көрсетіледі.
+      const task1 = document.getElementById('task1');
+      function syncTask1Result() {
+        newDiv.hidden = !task1.classList.contains('active');
+      }
+      new MutationObserver(syncTask1Result).observe(task1, {
+        attributes: true, attributeFilter: ['class']
+      });
+      syncTask1Result();
 
-// 3. old-element класы бар элементті жою
-const oldElement = document.querySelector(".old-element");
-if (oldElement) {
-  oldElement.remove();
-}
-
-// 2. new-div класымен жаңа <div> жасап, <body> соңына қосу
-const newDiv = document.createElement("div");
-newDiv.id = "new-div-element";
-newDiv.className = "new-div";
-newDiv.textContent = "Мен жаңа элементпін";
-newDiv.style.display = "none"; // алдымен жасырамыз
-document.body.appendChild(newDiv);
-
-
-// 4. «Бұл ауыспалы абзац» мәтіні бар <p> элементін жасау
-const toggleParagraph = document.createElement("p");
-toggleParagraph.textContent = "Бұл ауыспалы абзац";
-toggleParagraph.style.cssText = "cursor: pointer; margin-top: 15px; padding: 10px; background: rgba(56, 189, 248, 0.1); border-radius: 5px; transition: 0.3s; color: #fff;";
-
-// 5. Абзацты басқан кезде мәтін түсін және қаріп өлшемін ауыстыру (toggle)
-let isChanged = false;
-
-toggleParagraph.addEventListener("click", () => {
-  isChanged = !isChanged;
-
-  if (isChanged) {
-    toggleParagraph.style.color = "#10b981"; // Жасыл түс
-    toggleParagraph.style.fontSize = "18px";
-    toggleParagraph.style.fontWeight = "bold";
-  } else {
-    toggleParagraph.style.color = "#fff";
-    toggleParagraph.style.fontSize = "16px";
-    toggleParagraph.style.fontWeight = "normal";
-  }
-});
-
-
-// Абзацты DOM-ға қосу (task1 бөліміне)
-const task1Container = document.getElementById("task1-content");
-if (task1Container) {
-  task1Container.appendChild(toggleParagraph);
-}
-
-
-
+      // 2 тапсырма: active класын ауыстыру және барлық кластарды шығару.
+      const classElement = document.getElementById('class-element');
+      const toggleButton = document.getElementById('toggle-active');
+      const classListParagraph = document.getElementById('class-list');
+      function showClasses() {
+        const classes = Array.from(classElement.classList);
+        console.log('Элементтің барлық кластары:', classes);
+        classListParagraph.textContent = 'Барлық кластар: ' + classes.join(', ');
+      }
+      toggleButton.addEventListener('click', () => {
+        const isActive = classElement.classList.toggle('active');
+        toggleButton.setAttribute('aria-pressed', String(isActive));
+        showClasses();
+      });
+      showClasses();
+    })();
