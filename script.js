@@ -104,7 +104,7 @@ openTab("home");
     document.querySelector("#task1 .old-element")?.remove();
 
     // ==========================================
-    // СМЕНА ЦВЕТА «Сәлем, әлем!» ПРИ НАЖАТИИ
+    // СМЕНА ПРИВЕТСТВИЯ И ЦВЕТА ПРИ НАЖАТИИ
     // ==========================================
 
     if (target) {
@@ -117,7 +117,6 @@ openTab("home");
         let colorIndex = 0;
         target.tabIndex = 0;
         target.setAttribute("role", "button");
-        target.setAttribute("aria-label", "Сәлем, әлем! Түсін өзгерту");
 
         function applyGreetingColor() {
             // Сохраняем выбранный цвет при переопределении стилей страницы.
@@ -125,17 +124,18 @@ openTab("home");
             target.style.setProperty("-webkit-text-fill-color", colors[colorIndex], "important");
         }
 
-        function changeGreetingColor() {
+        function changeGreeting() {
+            target.textContent = "Сәлем, Данияр!";
             colorIndex = (colorIndex + 1) % colors.length;
             applyGreetingColor();
         }
 
         applyGreetingColor();
-        target.addEventListener("click", changeGreetingColor);
+        target.addEventListener("click", changeGreeting);
         target.addEventListener("keydown", (event) => {
             if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
-                changeGreetingColor();
+                changeGreeting();
             }
         });
     }
@@ -187,17 +187,27 @@ openTab("home");
 const newDiv = document.createElement("div");
 
 newDiv.className = "new-div";
+newDiv.id = "new-element";
 newDiv.textContent = "Мен жаңа элементпін";
+newDiv.hidden = true;
 
 document.body.appendChild(newDiv);
 
 
 // Бұл нәтиже тек 1 тапсырма вкладкасында көрсетіледі.
 const task1 = document.getElementById("task1");
+const showNewElementButton = document.getElementById("show-new-element");
+let newElementShown = false;
 
 function syncTask1Result() {
-    newDiv.hidden = !task1.classList.contains("active");
+    newDiv.hidden = !newElementShown || !task1.classList.contains("active");
 }
+
+showNewElementButton.addEventListener("click", () => {
+    newElementShown = true;
+    showNewElementButton.setAttribute("aria-expanded", "true");
+    syncTask1Result();
+});
 
 new MutationObserver(syncTask1Result).observe(task1, {
     attributes: true,
