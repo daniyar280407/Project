@@ -125,7 +125,7 @@ openTab("home");
         }
 
         function changeGreeting() {
-            target.textContent = "Сәлем, Данияр!";
+            target.textContent = "Сәлем, Данияр. Бекаман. Далел!";
             colorIndex = (colorIndex + 1) % colors.length;
             applyGreetingColor();
         }
