@@ -21,77 +21,39 @@ const teamCards = document.querySelector(".team-cards");
 
 function openTab(target) {
 
-  // ----------------------------------------
-  // ЖОҒАРҒЫ ВКЛАДКАЛАРДЫ АУЫСТЫРУ
-  // ----------------------------------------
+    // ЖОҒАРҒЫ ВКЛАДКАЛАРДЫ АУЫСТЫРУ
+    buttons.forEach((button) => {
+        if (button.dataset.tab === target) {
+            button.classList.add("active");
+        } else {
+            button.classList.remove("active");
+        }
+    });
 
-  buttons.forEach((button) => {
+    // ТӨМЕНГІ КАРТОЧКАЛАРДЫҢ ACTIVE КҮЙІ
+    cards.forEach((card) => {
+        if (card.dataset.tab === target) {
+            card.classList.add("active");
+        } else {
+            card.classList.remove("active");
+        }
+    });
 
-    if (button.dataset.tab === target) {
+    // АҚПАРАТТЫҚ БӨЛІМДІ АУЫСТЫРУ
+    panels.forEach((panel) => {
+        if (panel.id === target) {
+            panel.classList.add("active");
+        } else {
+            panel.classList.remove("active");
+        }
+    });
 
-      button.classList.add("active");
-
+    // ТӨМЕНГІ КАРТОЧКАЛАРДЫ КӨРСЕТУ / ЖАСЫРУ
+    if (target === "home") {
+        teamCards.style.display = "grid";
     } else {
-
-      button.classList.remove("active");
-
+        teamCards.style.display = "none";
     }
-
-  });
-
-
-  // ----------------------------------------
-  // ТӨМЕНГІ КАРТОЧКАЛАРДЫҢ ACTIVE КҮЙІ
-  // ----------------------------------------
-
-  cards.forEach((card) => {
-
-    if (card.dataset.tab === target) {
-
-      card.classList.add("active");
-
-    } else {
-
-      card.classList.remove("active");
-
-    }
-
-  });
-
-
-  // ----------------------------------------
-  // АҚПАРАТТЫҚ БӨЛІМДІ АУЫСТЫРУ
-  // ----------------------------------------
-
-  panels.forEach((panel) => {
-
-    if (panel.id === target) {
-
-      panel.classList.add("active");
-
-    } else {
-
-      panel.classList.remove("active");
-
-    }
-
-  });
-
-
-  // ----------------------------------------
-  // ТӨМЕНГІ КАРТОЧКАЛАРДЫ КӨРСЕТУ / ЖАСЫРУ
-  // ----------------------------------------
-
-  if (target === "home") {
-
-    teamCards.style.display = "grid";
-
-  } else {
-
-    teamCards.style.display = "none";
-
-  }
-
 }
 
 
@@ -100,15 +62,10 @@ function openTab(target) {
 // ==========================================
 
 buttons.forEach((button) => {
-
-  button.addEventListener("click", () => {
-
-    const target = button.dataset.tab;
-
-    openTab(target);
-
-  });
-
+    button.addEventListener("click", () => {
+        const target = button.dataset.tab;
+        openTab(target);
+    });
 });
 
 
@@ -117,15 +74,10 @@ buttons.forEach((button) => {
 // ==========================================
 
 cards.forEach((card) => {
-
-  card.addEventListener("click", () => {
-
-    const target = card.dataset.tab;
-
-    openTab(target);
-
-  });
-
+    card.addEventListener("click", () => {
+        const target = card.dataset.tab;
+        openTab(target);
+    });
 });
 
 
@@ -138,20 +90,17 @@ cards.forEach((card) => {
 
 openTab("home");
 
-// DOM тапсырмалары
+
+// ==========================================
+// DOM ТАПСЫРМАЛАРЫ
+// ==========================================
+
 (() => {
-      // 1 тапсырма: ID бойынша мәтінді өзгерту.
-      document.getElementById('target-element').textContent = 'Сәлем, әлем!';
-      document.querySelector('#task1 .old-element').remove();
 
-      const paragraph = document.createElement('p');
-      paragraph.id = 'changing-paragraph';
-      paragraph.textContent = 'Бұл ауыспалы абзац';
-      paragraph.tabIndex = 0;
-      paragraph.setAttribute('role', 'button');
-      paragraph.setAttribute('aria-pressed', 'false');
-      document.getElementById('task1-content').appendChild(paragraph);
+    // 1 тапсырма: ID бойынша мәтінді өзгерту.
+    const target = document.getElementById("target-element");
 
+<<<<<<< HEAD
       let changed = false;
       function changeParagraphStyle() {
         changed = !changed;
@@ -164,25 +113,43 @@ openTab("home");
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           changeParagraphStyle();
+=======
+    // Удаляем старый элемент, только если он существует.
+    document.querySelector("#task1 .old-element")?.remove();
+
+    // ==========================================
+    // ПОКАЗ ПРИВЕТСТВИЯ ПРИ НАЖАТИИ КНОПКИ
+    // ==========================================
+
+    const showGreetingButton = document.getElementById("show-greeting");
+
+    if (target && showGreetingButton) {
+        const colors = ["#38bdf8", "#fda4af", "#34d399", "#fbbf24", "#a78bfa"];
+        let colorIndex = 0;
+
+        function changeGreetingColor() {
+            colorIndex = (colorIndex + 1) % colors.length;
+            target.style.setProperty("color", colors[colorIndex], "important");
+            target.style.setProperty("-webkit-text-fill-color", colors[colorIndex], "important");
+>>>>>>> 6f2a4c61a9768ef55677decc81f5b4d56a6cf4d8
         }
-      });
 
-      // Тапсырма шарты бойынша div тікелей body соңына қосылады.
-      const newDiv = document.createElement('div');
-      newDiv.className = 'new-div';
-      newDiv.textContent = 'Мен жаңа элементпін';
-      document.body.appendChild(newDiv);
+        target.addEventListener("click", changeGreetingColor);
+        target.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                changeGreetingColor();
+            }
+        });
 
-      // Бұл нәтиже тек 1 тапсырма вкладкасында көрсетіледі.
-      const task1 = document.getElementById('task1');
-      function syncTask1Result() {
-        newDiv.hidden = !task1.classList.contains('active');
-      }
-      new MutationObserver(syncTask1Result).observe(task1, {
-        attributes: true, attributeFilter: ['class']
-      });
-      syncTask1Result();
+        showGreetingButton.addEventListener("click", () => {
+            target.hidden = false;
+            target.textContent = "Сәлем, әлем!";
+            showGreetingButton.setAttribute("aria-expanded", "true");
+        });
+    }
 
+<<<<<<< HEAD
       // 2 тапсырма: active класын ауыстыру және барлық кластарды шығару.
       const classElement = document.getElementById('class-element');
       const toggleButton = document.getElementById('toggle-active');
@@ -336,3 +303,112 @@ themeToggle.addEventListener('click', () => {
     // Сақтау мүмкін болмаған жағдайда таңдау осы бетте қолданылады.
   }
 });
+=======
+
+    // ==========================================
+    // АУЫСПАЛЫ АБЗАЦ
+    // ==========================================
+
+    const paragraph = document.createElement("p");
+
+    paragraph.id = "changing-paragraph";
+    paragraph.textContent = "Бұл ауыспалы абзац";
+    paragraph.tabIndex = 0;
+
+    paragraph.setAttribute("role", "button");
+    paragraph.setAttribute("aria-pressed", "false");
+
+    document.getElementById("task1-content").appendChild(paragraph);
+
+    let changed = false;
+
+    function changeParagraphStyle() {
+        changed = !changed;
+
+        paragraph.style.color = changed ? "#fda4af" : "";
+        paragraph.style.fontSize = changed ? "26px" : "";
+
+        paragraph.setAttribute("aria-pressed", String(changed));
+    }
+
+    paragraph.addEventListener("click", changeParagraphStyle);
+
+    paragraph.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            changeParagraphStyle();
+        }
+    });
+
+})();
+
+
+// ==========================================
+// ЖАҢА DIV ЭЛЕМЕНТІН ҚОСУ
+// ==========================================
+
+// Тапсырма шарты бойынша div тікелей body соңына қосылады.
+const newDiv = document.createElement("div");
+
+newDiv.className = "new-div";
+newDiv.id = "new-element";
+newDiv.textContent = "Мен жаңа элементпін";
+newDiv.hidden = true;
+
+document.body.appendChild(newDiv);
+
+
+// Бұл нәтиже тек 1 тапсырма вкладкасында көрсетіледі.
+const task1 = document.getElementById("task1");
+const showNewElementButton = document.getElementById("show-new-element");
+let newElementShown = false;
+
+function syncTask1Result() {
+    newDiv.hidden = !newElementShown || !task1.classList.contains("active");
+}
+
+showNewElementButton.addEventListener("click", () => {
+    newElementShown = true;
+    showNewElementButton.setAttribute("aria-expanded", "true");
+    syncTask1Result();
+});
+
+new MutationObserver(syncTask1Result).observe(task1, {
+    attributes: true,
+    attributeFilter: ["class"]
+});
+
+syncTask1Result();
+
+
+// ==========================================
+// 2 ТАПСЫРМА: ACTIVE КЛАСЫН АУЫСТЫРУ
+// ЖӘНЕ БАРЛЫҚ КЛАСТАРДЫ ШЫҒАРУ
+// ==========================================
+
+const classElement = document.getElementById("class-element");
+const toggleButton = document.getElementById("toggle-active");
+const classListParagraph = document.getElementById("class-list");
+
+function showClasses() {
+    const classes = Array.from(classElement.classList);
+
+    console.log("Элементтің барлық кластары:", classes);
+
+    classListParagraph.textContent =
+        "Барлық кластар: " + classes.join(", ");
+}
+
+toggleButton.addEventListener("click", () => {
+    const isActive = classElement.classList.toggle("active");
+
+    toggleButton.setAttribute(
+        "aria-pressed",
+        String(isActive)
+    );
+
+    showClasses();
+});
+
+showClasses();
+>>>>>>> 6f2a4c61a9768ef55677decc81f5b4d56a6cf4d8
