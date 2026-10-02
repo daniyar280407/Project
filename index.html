@@ -11,7 +11,7 @@
     body { flex-direction: column; }
     .task-demo { padding: 20px; }
     .task-demo p { margin: 16px 0; line-height: 1.6; }
-    #target-element { color: #38bdf8; cursor: pointer; }
+    #target-element { padding: 18px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); color: #38bdf8; cursor: pointer; }
     #changing-paragraph { cursor: pointer; }
     .task-demo button { padding: 12px 18px; border: 0; border-radius: 8px; background: #7dd3fc; color: #0f172a; font-size: 16px; cursor: pointer; }
     .task-demo :focus-visible { outline: 3px solid #fbbf24; outline-offset: 4px; }
@@ -382,7 +382,8 @@
             <section class="tab-panel" id="task1">
         <div class="task-demo">
           <h2>1 тапсырма</h2>
-          <p id="target-element">Бұл бастапқы мәтін</p>
+          <p id="target-element" role="button" tabindex="0" aria-label="Сәлем, әлем! Мәтін түсін өзгерту" aria-live="polite" hidden></p>
+          <p><button id="show-greeting" type="button" aria-controls="target-element" aria-expanded="false">Сәлем, әлем!</button></p>
           <div class="old-element">Бұл жойылатын элемент (.old-element)</div>
           <p>Абзацты басыңыз: мәтін түсі мен қаріп өлшемі өзгереді.</p>
           <div id="task1-content"></div>
@@ -488,6 +489,6 @@
 
 
   <!-- JAVASCRIPT -->
-  <script src="script.js?v=task1-interactions-3"></script>
+  <script src="script.js?v=task1-interactions-5"></script>
 </body>
 </html>
