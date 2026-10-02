@@ -7,19 +7,6 @@
   <title>Біздің команда</title>
 
   <link rel="stylesheet" href="style.css">
-  <style>
-    body { flex-direction: column; }
-    .task-demo { padding: 20px; }
-    .task-demo p { margin: 16px 0; line-height: 1.6; }
-    #target-element { color: #38bdf8; }
-    #changing-paragraph { cursor: pointer; }
-    .task-demo button { padding: 12px 18px; border: 0; border-radius: 8px; background: #7dd3fc; color: #0f172a; font-size: 16px; cursor: pointer; }
-    .task-demo :focus-visible { outline: 3px solid #fbbf24; outline-offset: 4px; }
-    .task-demo .demo-element { margin-top: 20px; padding: 18px; border: 2px solid #64748b; border-radius: 8px; }
-    .task-demo .demo-element.active { background: #14532d; border-color: #34d399; }
-    body > .new-div { width: min(1000px, 100%); margin-top: 16px; padding: 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--panel); }
-    body > .new-div[hidden] { display: none; }
-  </style>
 </head>
 
 <body>
@@ -28,7 +15,12 @@
 
     <!-- HEADER -->
     <header class="header">
-      <h1>Біздің команда</h1>
+      <div class="header-heading">
+        <h1>Біздің команда</h1>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false">
+          Қараңғы тақырыпты қосу
+        </button>
+      </div>
 
       <p>
         Әрбір қатысушы жобаның маңызды бөлігіне жауап береді
@@ -86,6 +78,14 @@
         data-tab="task2"
       >
         2 тапсырма
+      </button>
+
+      <button class="tab-button" type="button" data-tab="task3">
+        3 тапсырма
+      </button>
+
+      <button class="tab-button" type="button" data-tab="task4">
+        4 тапсырма
       </button>
 
     </nav>
@@ -400,6 +400,65 @@
           <div id="class-element" class="demo-element example">Кластары басқарылатын элемент</div>
           <p><button id="toggle-active" type="button" aria-controls="class-element" aria-pressed="false">active класын ауыстыру</button></p>
           <p id="class-list" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <!-- 3 ТАПСЫРМА: интерактивті кесте -->
+      <section class="tab-panel" id="task3">
+        <div class="task-demo">
+          <h2>3 тапсырма. Интерактивті кесте</h2>
+          <p id="table-help">Кесте өлшемін енгізіңіз және бояу түсін таңдаңыз. Ұяшықты басқанда түсі өзгереді, сол түспен қайта басқанда бояуы өшеді.</p>
+
+          <form id="table-form" class="table-form" novalidate aria-describedby="table-help table-error">
+            <label class="form-field" for="table-rows">
+              Жолдар саны
+              <input id="table-rows" name="rows" type="number" min="1" max="50" step="1" value="5" required>
+            </label>
+            <label class="form-field" for="table-columns">
+              Бағандар саны
+              <input id="table-columns" name="columns" type="number" min="1" max="50" step="1" value="5" required>
+            </label>
+            <button type="submit">Кесте құру</button>
+          </form>
+          <p>Әр өлшем 1–50 аралығында болуы керек. Жаңа кесте құрғанда ұяшықтардың бояуы өшеді.</p>
+          <p id="table-error" class="form-error" role="alert" hidden></p>
+
+          <div class="table-controls">
+            <label class="form-field" for="paint-color">
+              Бояу түсі
+              <select id="paint-color">
+                <option value="red">Қызыл</option>
+                <option value="blue">Көк</option>
+                <option value="green">Жасыл</option>
+                <option value="yellow">Сары</option>
+              </select>
+            </label>
+            <label class="form-field" for="count-color">
+              Есептелетін түс
+              <select id="count-color">
+                <option value="red">Қызыл</option>
+                <option value="blue">Көк</option>
+                <option value="green">Жасыл</option>
+                <option value="yellow">Сары</option>
+                <option value="empty">Боялмаған</option>
+              </select>
+            </label>
+            <button id="count-cells" type="button">Ұяшықтарды санау</button>
+          </div>
+
+          <p id="cell-count" class="count-result" role="status" aria-live="polite"></p>
+          <p id="table-summary" role="status" aria-live="polite"></p>
+          <div id="table-container" class="table-scroll" tabindex="0" role="region" aria-label="Интерактивті кесте" aria-describedby="table-help"></div>
+        </div>
+      </section>
+
+      <!-- 4 ТАПСЫРМА: сайттың түс режимі -->
+      <section class="tab-panel" id="task4">
+        <div class="task-demo">
+          <h2>4 тапсырма. Қараңғы тақырып</h2>
+          <p>Жоғарғы жақтағы тақырып қосқышын басып, ашық және қараңғы режимдердің арасында ауысыңыз.</p>
+          <p id="theme-status" class="theme-status" role="status" aria-live="polite">Қазіргі режим: ашық тақырып.</p>
+          <p>Таңдалған режим браузерде сақталады және бетті қайта ашқанда қолданылады.</p>
         </div>
       </section>
 
