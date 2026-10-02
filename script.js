@@ -104,39 +104,33 @@ openTab("home");
     document.querySelector("#task1 .old-element")?.remove();
 
     // ==========================================
-    // СМЕНА ПРИВЕТСТВИЯ И ЦВЕТА ПРИ НАЖАТИИ
+    // ПОКАЗ ПРИВЕТСТВИЯ ПРИ НАЖАТИИ КНОПКИ
     // ==========================================
 
-    if (target) {
-        target.textContent = "Сәлем, әлем!";
+    const showGreetingButton = document.getElementById("show-greeting");
 
-        // При наведении показываем указатель, как у кнопки.
-        target.style.cursor = "pointer";
-
+    if (target && showGreetingButton) {
         const colors = ["#38bdf8", "#fda4af", "#34d399", "#fbbf24", "#a78bfa"];
         let colorIndex = 0;
-        target.tabIndex = 0;
-        target.setAttribute("role", "button");
 
-        function applyGreetingColor() {
-            // Сохраняем выбранный цвет при переопределении стилей страницы.
+        function changeGreetingColor() {
+            colorIndex = (colorIndex + 1) % colors.length;
             target.style.setProperty("color", colors[colorIndex], "important");
             target.style.setProperty("-webkit-text-fill-color", colors[colorIndex], "important");
         }
 
-        function changeGreeting() {
-            target.textContent = "Сәлем, Данияр. Бекаман. Далел!";
-            colorIndex = (colorIndex + 1) % colors.length;
-            applyGreetingColor();
-        }
-
-        applyGreetingColor();
-        target.addEventListener("click", changeGreeting);
+        target.addEventListener("click", changeGreetingColor);
         target.addEventListener("keydown", (event) => {
             if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
-                changeGreeting();
+                changeGreetingColor();
             }
+        });
+
+        showGreetingButton.addEventListener("click", () => {
+            target.hidden = false;
+            target.textContent = "Сәлем, әлем!";
+            showGreetingButton.setAttribute("aria-expanded", "true");
         });
     }
 
