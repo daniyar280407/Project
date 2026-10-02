@@ -300,7 +300,7 @@ function createTable(rows, columns) {
 
   tableContainer.replaceChildren(table);
   document.getElementById('table-summary').textContent = `Барлығы: ${rows * columns} ұяшық.`;
-  updateCellCount();
+  document.getElementById('cell-count').textContent = 'Ұяшықтарды санау үшін «Ұяшықтарды санау» батырмасын басыңыз.';
   return table;
 }
 
@@ -340,10 +340,8 @@ tableContainer.addEventListener('click', (event) => {
   if (!cell || !tableContainer.contains(cell)) return;
   const color = cell.dataset.color === paintColor.value ? 'empty' : paintColor.value;
   setCellColor(cell, color);
-  updateCellCount();
 });
 
-countColor.addEventListener('change', updateCellCount);
 document.getElementById('count-cells').addEventListener('click', updateCellCount);
 createTable(Number(rowInput.value), Number(columnInput.value));
 
