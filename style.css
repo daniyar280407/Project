@@ -804,7 +804,12 @@ select:focus-visible,
 }
 
 #target-element {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
   color: var(--demo-target);
+  cursor: pointer;
 }
 
 #changing-paragraph {
