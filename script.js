@@ -155,7 +155,7 @@ openTab("home");
       let changed = false;
       function changeParagraphStyle() {
         changed = !changed;
-        paragraph.style.color = changed ? '#fda4af' : '';
+        paragraph.style.color = changed ? 'var(--demo-changed)' : '';
         paragraph.style.fontSize = changed ? '26px' : '';
         paragraph.setAttribute('aria-pressed', String(changed));
       }
@@ -199,3 +199,140 @@ openTab("home");
       });
       showClasses();
     })();
+
+// ==========================================
+// 3 ТАПСЫРМА: КЕСТЕ ҚҰРУ ЖӘНЕ ТҮСТЕРДІ САНАУ
+// ==========================================
+
+const cellColors = {
+  red: 'Қызыл',
+  blue: 'Көк',
+  green: 'Жасыл',
+  yellow: 'Сары',
+  empty: 'Боялмаған'
+};
+const tableContainer = document.getElementById('table-container');
+const tableForm = document.getElementById('table-form');
+const rowInput = document.getElementById('table-rows');
+const columnInput = document.getElementById('table-columns');
+const paintColor = document.getElementById('paint-color');
+const countColor = document.getElementById('count-color');
+const tableError = document.getElementById('table-error');
+
+function isValidTableSize(size) {
+  return Number.isInteger(size) && size >= 1 && size <= 50;
+}
+
+function setCellColor(cell, color) {
+  cell.dataset.color = color;
+  cell.setAttribute('aria-pressed', String(color !== 'empty'));
+  cell.setAttribute('aria-label', `${cell.dataset.row} жол, ${cell.dataset.column} баған: ${cellColors[color]}`);
+}
+
+// Кесте толық дайын болған соң ғана бұрынғы кестені ауыстырады.
+function createTable(rows, columns) {
+  if (!isValidTableSize(rows) || !isValidTableSize(columns)) {
+    throw new RangeError('Жолдар мен бағандар санын 1–50 аралығындағы бүтін санмен енгізіңіз.');
+  }
+
+  const table = document.createElement('table');
+  table.id = 'generated-table';
+  table.className = 'interactive-table';
+  const caption = table.createCaption();
+  caption.textContent = `${rows} жол × ${columns} баған`;
+  const body = table.createTBody();
+
+  for (let row = 1; row <= rows; row++) {
+    const tableRow = body.insertRow();
+    for (let column = 1; column <= columns; column++) {
+      const cell = document.createElement('button');
+      cell.type = 'button';
+      cell.className = 'cell-button';
+      cell.dataset.row = String(row);
+      cell.dataset.column = String(column);
+      cell.textContent = `${row}, ${column}`;
+      setCellColor(cell, 'empty');
+      tableRow.insertCell().appendChild(cell);
+    }
+  }
+
+  tableContainer.replaceChildren(table);
+  document.getElementById('table-summary').textContent = `Барлығы: ${rows * columns} ұяшық.`;
+  updateCellCount();
+  return table;
+}
+
+// Түсті атауы бойынша санайды: red, blue, green, yellow немесе empty.
+function countCellsByColor(color) {
+  return Array.from(tableContainer.querySelectorAll('.cell-button'))
+    .filter((cell) => cell.dataset.color === color).length;
+}
+
+function updateCellCount() {
+  const color = countColor.value;
+  document.getElementById('cell-count').textContent = `${cellColors[color]} ұяшықтар саны: ${countCellsByColor(color)}`;
+}
+
+tableForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const rows = Number(rowInput.value);
+  const columns = Number(columnInput.value);
+  rowInput.setAttribute('aria-invalid', String(!isValidTableSize(rows)));
+  columnInput.setAttribute('aria-invalid', String(!isValidTableSize(columns)));
+
+  try {
+    createTable(rows, columns);
+    tableError.hidden = true;
+    tableError.textContent = '';
+  } catch (error) {
+    if (!(error instanceof RangeError)) throw error;
+    tableError.textContent = error.message;
+    tableError.hidden = false;
+    (isValidTableSize(rows) ? columnInput : rowInput).focus();
+  }
+});
+
+// Бір өңдеуші жаңадан құрылған кестелермен де жұмыс істейді.
+tableContainer.addEventListener('click', (event) => {
+  const cell = event.target.closest('.cell-button');
+  if (!cell || !tableContainer.contains(cell)) return;
+  const color = cell.dataset.color === paintColor.value ? 'empty' : paintColor.value;
+  setCellColor(cell, color);
+  updateCellCount();
+});
+
+countColor.addEventListener('change', updateCellCount);
+document.getElementById('count-cells').addEventListener('click', updateCellCount);
+createTable(Number(rowInput.value), Number(columnInput.value));
+
+// ==========================================
+// 4 ТАПСЫРМА: АШЫҚ / ҚАРАҢҒЫ ТАҚЫРЫП
+// ==========================================
+
+const themeToggle = document.getElementById('theme-toggle');
+
+function setTheme(theme) {
+  const isDark = theme === 'dark';
+  document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+  themeToggle.setAttribute('aria-pressed', String(isDark));
+  themeToggle.textContent = isDark ? 'Ашық тақырыпты қосу' : 'Қараңғы тақырыпты қосу';
+  document.getElementById('theme-status').textContent = `Қазіргі режим: ${isDark ? 'қараңғы' : 'ашық'} тақырып.`;
+}
+
+let savedTheme = 'light';
+try {
+  savedTheme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
+} catch {
+  // Браузер сақтауға рұқсат бермесе де, қосқыш жұмыс істейді.
+}
+setTheme(savedTheme);
+
+themeToggle.addEventListener('click', () => {
+  const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  setTheme(theme);
+  try {
+    localStorage.setItem('theme', theme);
+  } catch {
+    // Сақтау мүмкін болмаған жағдайда таңдау осы бетте қолданылады.
+  }
+});
