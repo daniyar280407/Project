@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Практика DummyJSON</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>HTTP и CRUD</h1>
+    <p>Учебная страница с товарами DummyJSON.</p>
+    <p>Добавление, изменение и удаление имитируются. Изменения на сервере не сохраняются.</p>
+
+    <section>
+      <h2>1. Получить товары — GET</h2>
+      <label for="category">Категория:</label>
+      <select id="category">
+        <option value="">Все категории</option>
+      </select>
+      <button id="load" type="button">Получить 10 товаров — GET</button>
+      <ul id="products"></ul>
+    </section>
+
+    <section>
+      <h2>2. CRUD одного товара</h2>
+      <label for="product-id">ID существующего товара:</label>
+      <input id="product-id" type="number" min="1" step="1" value="1">
+      <label for="title">Название товара:</label>
+      <input id="title" type="text" value="Учебный товар">
+      <div>
+        <button id="read" type="button">Прочитать — GET</button>
+        <button id="create" type="button">Добавить — POST</button>
+        <button id="update" type="button">Изменить — PATCH</button>
+        <button id="remove" type="button">Удалить — DELETE</button>
+      </div>
+      <p>Для добавления ID не нужен. Для остальных действий используй существующий ID, например 1.</p>
+      <p>ID из ответа на POST не сохраняется в API. Для дальнейших запросов используй ID из списка товаров.</p>
+    </section>
+
+    <section>
+      <h2>3. Ответ сервера</h2>
+      <p id="status" role="status" aria-live="polite">Запрос ещё не отправлен.</p>
+      <p id="info" role="status" aria-live="polite"></p>
+      <pre id="result"></pre>
+    </section>
+
+    <section>
+      <h2>Подсказка для ответа преподавателю</h2>
+      <p>CRUD: Create — POST, Read — GET, Update — PUT/PATCH, Delete — DELETE.</p>
+      <p>Группы статусов: 1xx — информация, 2xx — успех, 3xx — перенаправление/кеш, 4xx — ошибка клиента, 5xx — ошибка сервера.</p>
+      <p>200 — успешно; 201 — создано; 400 — неверный запрос; 401 — нужна авторизация; 403 — доступ запрещён; 404 — не найдено; 500 — ошибка сервера.</p>
+      <button id="test-error" type="button">Проверить ошибку 404</button>
+      <p><a href="https://dummyjson.com/docs/products" target="_blank" rel="noopener noreferrer">Документация DummyJSON</a></p>
+    </section>
+  </main>
+</body>
+</html>
