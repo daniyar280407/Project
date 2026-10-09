@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Свежий Маркет — управление каталогом и запасами товаров.">
+  <meta name="theme-color" content="#176b43">
+  <title>Свежий Маркет — каталог товаров</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23176b43'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Arial' font-size='23' font-weight='bold' fill='white'%3EС%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="src/app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#catalog" aria-label="Свежий Маркет — каталог">
+        <span class="brand-mark" aria-hidden="true">СМ</span>
+        <span>Свежий Маркет</span>
+      </a>
+      <nav aria-label="Основная навигация">
+        <a class="nav-link active" href="#catalog">Каталог</a>
+        <a class="nav-link" href="#summary">Показатели</a>
+      </nav>
+      <label class="search">
+        <span class="visually-hidden">Поиск по названию товара</span>
+        <input id="search-input" type="search" placeholder="Найти товар по названию" autocomplete="off">
+      </label>
+    </div>
+  </header>
+
+  <main class="container" id="catalog">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Управление магазином</p>
+        <h1>Каталог товаров</h1>
+      </div>
+      <p class="session-note">Изменения действуют до перезагрузки страницы.</p>
+    </div>
+
+    <section class="summary" id="summary" aria-label="Показатели всего каталога">
+      <div class="metric"><span>Товаров в каталоге</span><strong id="total-products">—</strong></div>
+      <div class="metric"><span>Категорий</span><strong id="total-categories">—</strong></div>
+      <div class="metric"><span>Стоимость на складе</span><strong id="total-value">—</strong><small>Цена × количество всех товаров · USD</small></div>
+    </section>
+
+    <section class="toolbar" aria-label="Управление каталогом">
+      <label>Категория<select id="category-filter"><option value="">Все категории</option></select></label>
+      <label>Сортировка<select id="sort-select">
+        <option value="price-asc">Цена: по возрастанию</option>
+        <option value="price-desc">Цена: по убыванию</option>
+        <option value="title-asc">Название: А–Я</option>
+        <option value="title-desc">Название: Я–А</option>
+        <option value="rating-desc">Рейтинг: сначала высокий</option>
+        <option value="rating-asc">Рейтинг: сначала низкий</option>
+      </select></label>
+      <button class="button button-quiet" id="reset-filters" type="button">Сбросить фильтры</button>
+      <button class="button button-primary" id="add-product" type="button" disabled><span aria-hidden="true">+</span> Добавить товар</button>
+    </section>
+
+    <div class="notification" id="notification" role="status" aria-live="polite" hidden>
+      <span id="notification-text"></span>
+      <button type="button" id="close-notification" aria-label="Закрыть сообщение">×</button>
+    </div>
+
+    <div class="catalog-caption"><h2>Товары</h2><p id="visible-count" aria-live="polite">Загрузка каталога…</p></div>
+    <section id="catalog-state" class="catalog-state" aria-live="polite">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2 id="state-title">Загружаем товары</h2>
+      <p id="state-description">Подождите немного.</p>
+      <button id="retry-load" class="button button-primary" type="button" hidden>Попробовать снова</button>
+    </section>
+    <section class="product-grid" id="product-grid" aria-label="Список товаров" aria-busy="true"></section>
+    <noscript><p class="catalog-state">Для работы каталога включите JavaScript в браузере.</p></noscript>
+  </main>
+
+  <template id="product-card-template">
+    <article class="product-card">
+      <div class="product-photo">
+        <img loading="lazy" width="300" height="200" alt="">
+        <span class="product-category"></span>
+        <span class="image-placeholder" hidden>Нет фото</span>
+      </div>
+      <div class="product-content">
+        <div class="price-rating"><strong class="product-price"></strong><span class="product-rating"></span></div>
+        <h3 class="product-title"></h3>
+        <p class="product-brand"></p>
+        <div class="stock-row">
+          <span>На складе</span>
+          <div class="stock-control">
+            <button type="button" data-action="decrease-stock" aria-label="Уменьшить количество">−</button>
+            <span class="product-stock"></span>
+            <button type="button" data-action="increase-stock" aria-label="Увеличить количество">+</button>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="button button-outline" type="button" data-action="edit">Редактировать</button>
+          <button class="button button-delete" type="button" data-action="delete">Удалить</button>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <dialog id="product-dialog" aria-labelledby="form-title">
+    <form id="product-form" novalidate>
+      <div class="dialog-header"><h2 id="form-title">Добавить товар</h2><button class="dialog-close" id="close-product-dialog" type="button" aria-label="Закрыть форму">×</button></div>
+      <p class="form-hint">Название, цена, категория и количество обязательны.</p>
+      <div class="form-error" id="form-error" role="alert" hidden></div>
+      <label>Название<input name="title" id="product-title" type="text" required autocomplete="off"></label>
+      <div class="form-grid">
+        <label>Цена, USD<input name="price" id="product-price" type="number" step="any" inputmode="decimal" required></label>
+        <label>Количество на складе<input name="stock" id="product-stock" type="number" min="0" step="1" inputmode="numeric" required></label>
+        <label>Категория<select name="category" id="product-category" required></select></label>
+        <label>Бренд<input name="brand" id="product-brand" type="text" autocomplete="off"></label>
+      </div>
+      <label>Описание<textarea name="description" id="product-description" rows="3"></textarea></label>
+      <div class="dialog-actions"><button class="button button-quiet" id="cancel-product-dialog" type="button">Отмена</button><button class="button button-primary" id="save-product" type="submit">Добавить товар</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="delete-dialog" class="delete-dialog" aria-labelledby="delete-title">
+    <h2 id="delete-title">Удалить товар?</h2>
+    <p id="delete-description"></p>
+    <p class="form-hint">Товар исчезнет из каталога до перезагрузки страницы.</p>
+    <div class="form-error" id="delete-error" role="alert" hidden></div>
+    <div class="dialog-actions"><button class="button button-quiet" id="cancel-delete" type="button" autofocus>Отмена</button><button class="button button-danger" id="confirm-delete" type="button">Удалить</button></div>
+  </dialog>
+</body>
+</html>
