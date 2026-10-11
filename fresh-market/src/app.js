@@ -1196,7 +1196,9 @@ function bindEvents() {
   );
 }
 
-if ("scrollRestoration" in window.history)
-  window.history.scrollRestoration = "manual";
-bindEvents();
-loadCatalog();
+export function startApp() {
+  if ("scrollRestoration" in window.history)
+    window.history.scrollRestoration = "manual";
+  bindEvents();
+  return loadCatalog();
+}

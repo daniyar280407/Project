@@ -11,7 +11,6 @@
     <title>Свежий Маркет — хорошие продукты каждый день</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="src/app.js"></script>
   </head>
   <body>
     <svg
@@ -570,5 +569,79 @@
       aria-live="polite"
       aria-atomic="false"
     ></div>
+    <script>
+      // Обычный скрипт работает и при открытии HTML двойным щелчком.
+      (() => {
+        const status = document.getElementById("catalog-status");
+
+        function showStartupError(title, description, localFile = false) {
+          document.getElementById("catalog-view").hidden = false;
+          document.getElementById("product-view").hidden = true;
+          document.getElementById("product-grid").hidden = true;
+          document.getElementById("results-count").textContent = "Не загружен";
+          document.getElementById("add-product").disabled = true;
+          status.hidden = false;
+          status.removeAttribute("aria-busy");
+          status.replaceChildren();
+
+          const panel = document.createElement("div");
+          panel.className = "empty-state";
+          const heading = document.createElement("h2");
+          heading.textContent = title;
+          const message = document.createElement("p");
+          message.textContent = description;
+          panel.append(heading, message);
+
+          if (localFile) {
+            const command = document.createElement("pre");
+            command.textContent = "python -m http.server 8000";
+            const instruction = document.createElement("p");
+            instruction.textContent =
+              "Выполните эту команду в папке fresh-market. Оставьте терминал открытым и перейдите по ссылке ниже.";
+            const link = document.createElement("a");
+            link.className = "button button-primary";
+            link.href = "http://localhost:8000";
+            link.textContent = "Открыть магазин на localhost:8000";
+            panel.append(command, instruction, link);
+          } else {
+            const retry = document.createElement("button");
+            retry.type = "button";
+            retry.className = "button button-primary";
+            retry.textContent = "Перезагрузить страницу";
+            retry.addEventListener("click", () => location.reload());
+            panel.append(retry);
+          }
+          status.append(panel);
+        }
+
+        if (location.protocol === "file:") {
+          showStartupError(
+            "Откройте магазин через локальный сервер",
+            "Сейчас HTML открыт как файл. Браузер блокирует JavaScript-модули, поэтому товары не загружаются. Можно использовать Live Server или команду ниже.",
+            true,
+          );
+          return;
+        }
+
+        // Перехватываем ошибки загрузки модулей и первого запуска приложения.
+        const startupTimeout = setTimeout(() => {
+          showStartupError(
+            "Запуск магазина занимает слишком много времени",
+            "Проверьте соединение и работу сервера, затем перезагрузите страницу.",
+          );
+        }, 25000);
+
+        import("./src/app.js")
+          .then((app) => app.startApp())
+          .catch((error) => {
+            console.error("Не удалось запустить магазин:", error);
+            showStartupError(
+              "Не удалось запустить магазин",
+              "Не удалось загрузить или выполнить скрипты. Проверьте, что папка src находится рядом с index.html, и перезагрузите страницу.",
+            );
+          })
+          .finally(() => clearTimeout(startupTimeout));
+      })();
+    </script>
   </body>
 </html>
