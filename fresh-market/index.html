@@ -50,6 +50,11 @@
           d="m12 3 9 5v9l-9 5-9-5V8l9-5Zm0 10L3 8m9 5 9-5m-9 5v9M7.5 5.5l9 5"
         />
       </symbol>
+      <symbol id="icon-cart" viewBox="0 0 24 24">
+        <path d="M2 3h3l2.5 12h11L21 7H6M8 19h.01M18 19h.01" />
+        <circle cx="8" cy="19" r="1.4" />
+        <circle cx="18" cy="19" r="1.4" />
+      </symbol>
       <symbol id="icon-star" viewBox="0 0 24 24">
         <path
           d="m12 3 2.8 5.8 6.4.9-4.6 4.5 1.1 6.4-5.7-3-5.7 3 1.1-6.4-4.6-4.5 6.4-.9L12 3Z"
@@ -135,10 +140,24 @@
           id="add-product"
           class="button button-primary"
           type="button"
+          aria-label="Добавить товар"
           disabled
         >
           <svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg
           ><span>Добавить товар</span>
+        </button>
+        <button
+          id="open-cart"
+          class="button button-secondary header-cart"
+          type="button"
+          aria-label="Открыть корзину"
+          aria-haspopup="dialog"
+          aria-controls="cart-dialog"
+          disabled
+        >
+          <svg class="icon" aria-hidden="true"><use href="#icon-cart" /></svg>
+          <span class="cart-button-label">Корзина</span>
+          <span id="cart-count" class="cart-count">0</span>
         </button>
       </div>
       <div class="container header-bottom">
@@ -522,6 +541,83 @@
     </dialog>
 
     <dialog
+      id="cart-dialog"
+      class="modal cart-modal"
+      aria-labelledby="cart-title"
+    >
+      <div class="modal-header cart-header">
+        <div>
+          <span class="cart-heading-icon"
+            ><svg class="icon" aria-hidden="true"><use href="#icon-cart" /></svg
+          ></span>
+          <h2 id="cart-title">Ваша корзина</h2>
+          <p>Всё, что вы выбрали, в одном месте.</p>
+        </div>
+        <button
+          type="button"
+          class="icon-button"
+          data-close-dialog="cart-dialog"
+          aria-label="Закрыть корзину"
+          autofocus
+        >
+          <svg class="icon" aria-hidden="true"><use href="#icon-close" /></svg>
+        </button>
+      </div>
+      <div class="cart-body">
+        <div id="cart-empty" class="cart-empty">
+          <span class="cart-empty-icon"
+            ><svg class="icon" aria-hidden="true"><use href="#icon-cart" /></svg
+          ></span>
+          <h3>Здесь пока пусто</h3>
+          <p>
+            Найдите что-нибудь по вкусу и нажмите «В корзину» на карточке
+            товара.
+          </p>
+          <button
+            type="button"
+            class="button button-primary"
+            data-close-dialog="cart-dialog"
+          >
+            Перейти к покупкам
+          </button>
+        </div>
+        <div
+          id="cart-items"
+          class="cart-items"
+          aria-label="Товары в корзине"
+        ></div>
+        <p
+          id="cart-note"
+          class="cart-note"
+          role="status"
+          aria-live="polite"
+        ></p>
+      </div>
+      <div id="cart-summary" class="cart-summary" hidden>
+        <div class="cart-summary-top">
+          <span id="cart-quantity">0 товаров</span
+          ><button id="clear-cart" class="text-button" type="button">
+            Очистить корзину
+          </button>
+        </div>
+        <div class="cart-total-row">
+          <strong>Итого</strong><strong id="cart-total">0,00 $</strong>
+        </div>
+        <p>Товары в корзине сохраняются до перезагрузки страницы.</p>
+        <button
+          class="button button-primary cart-continue"
+          type="button"
+          data-close-dialog="cart-dialog"
+        >
+          Продолжить покупки
+          <svg class="icon" aria-hidden="true">
+            <use href="#icon-arrow-right" />
+          </svg>
+        </button>
+      </div>
+    </dialog>
+
+    <dialog
       id="about-dialog"
       class="modal modal-small"
       aria-labelledby="about-title"
@@ -580,6 +676,7 @@
           document.getElementById("product-grid").hidden = true;
           document.getElementById("results-count").textContent = "Не загружен";
           document.getElementById("add-product").disabled = true;
+          document.getElementById("open-cart").disabled = true;
           status.hidden = false;
           status.removeAttribute("aria-busy");
           status.replaceChildren();
@@ -597,7 +694,7 @@
             command.textContent = "python -m http.server 8000";
             const instruction = document.createElement("p");
             instruction.textContent =
-              "Выполните эту команду в папке fresh-market. Оставьте терминал открытым и перейдите по ссылке ниже.";
+              "Самый простой способ: откройте start.cmd в папке fresh-market двойным щелчком — магазин запустится сам. Либо выполните команду выше в этой папке, оставьте терминал открытым и перейдите по ссылке ниже.";
             const link = document.createElement("a");
             link.className = "button button-primary";
             link.href = "http://localhost:8000";

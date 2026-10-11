@@ -58,6 +58,7 @@ const state = {
   sort: "featured",
   localCounter: 0,
   locks: new Set(),
+  cart: new Map(),
   galleryIndices: new Map(),
   editingId: null,
   deletingId: null,
@@ -98,6 +99,16 @@ const dom = {
   deleteError: element("delete-error"),
   confirmDelete: element("confirm-delete"),
   aboutDialog: element("about-dialog"),
+  openCart: element("open-cart"),
+  cartCount: element("cart-count"),
+  cartDialog: element("cart-dialog"),
+  cartItems: element("cart-items"),
+  cartSummary: element("cart-summary"),
+  cartTotal: element("cart-total"),
+  cartQuantity: element("cart-quantity"),
+  clearCart: element("clear-cart"),
+  cartEmpty: element("cart-empty"),
+  cartNote: element("cart-note"),
   toasts: element("toasts"),
 };
 
@@ -194,12 +205,175 @@ function showToast(message, type = "success") {
   toast.innerHTML = `${icon(type === "error" ? "info" : "check")}<span>${escapeHtml(message)}</span>
     <button class="icon-button" type="button" aria-label="Закрыть уведомление">${icon("close")}</button>`;
   toast.querySelector("button").addEventListener("click", () => toast.remove());
+  // Быстрые добавления в корзину не должны закрывать уведомлениями весь экран.
+  while (dom.toasts.children.length >= 3) dom.toasts.firstElementChild.remove();
   dom.toasts.append(toast);
   window.setTimeout(() => toast.remove(), type === "error" ? 8000 : 4500);
 }
 
 function errorMessage(error, fallback) {
   return error instanceof Error && error.message ? error.message : fallback;
+}
+
+function cartQuantity(productId) {
+  return state.cart.get(String(productId)) || 0;
+}
+
+function cartButtonMarkup(product, detail = false) {
+  const quantity = cartQuantity(product.id);
+  const disabled =
+    state.locks.has(String(product.id)) || quantity >= product.stock;
+  const label =
+    product.stock === 0
+      ? "Нет в наличии"
+      : quantity > 0
+        ? `В корзине: ${numberFormatter.format(quantity)}`
+        : "В корзину";
+  return `<button type="button" class="button button-primary add-to-cart${detail ? " detail-cart-button" : ""}"
+    data-action="add-to-cart" data-product-id="${escapeHtml(product.id)}"
+    aria-label="${escapeHtml(`${quantity ? "Добавить ещё в корзину" : "Добавить в корзину"}: ${product.title}${quantity ? `. В корзине: ${quantity} шт.` : ""}`)}"${disabled ? " disabled" : ""}>
+    ${icon("cart")}<span>${label}</span></button>`;
+}
+
+function updateCartButtons() {
+  document.querySelectorAll('[data-action="add-to-cart"]').forEach((button) => {
+    const product = getProduct(button.dataset.productId);
+    if (!product) return;
+    const quantity = cartQuantity(product.id);
+    button.disabled =
+      state.locks.has(String(product.id)) || quantity >= product.stock;
+    button.querySelector("span").textContent =
+      product.stock === 0
+        ? "Нет в наличии"
+        : quantity > 0
+          ? `В корзине: ${numberFormatter.format(quantity)}`
+          : "В корзину";
+    button.setAttribute(
+      "aria-label",
+      `${quantity ? "Добавить ещё в корзину" : "Добавить в корзину"}: ${product.title}${quantity ? `. В корзине: ${quantity} шт.` : ""}`,
+    );
+  });
+}
+
+function reconcileCart() {
+  let changed = false;
+  // Храним только ID и количество, поэтому цена и название всегда актуальны.
+  for (const [id, quantity] of state.cart) {
+    const product = getProduct(id);
+    if (!product || product.stock === 0) {
+      state.cart.delete(id);
+      changed = true;
+    } else if (quantity > product.stock) {
+      state.cart.set(id, product.stock);
+      changed = true;
+    }
+  }
+  if (changed) {
+    const message = "Корзина обновлена с учётом наличия товаров на складе.";
+    dom.cartNote.textContent = message;
+    showToast(message);
+  }
+}
+
+function renderCart() {
+  const focused = document.activeElement;
+  const focusId = focused?.closest("[data-cart-id]")?.dataset.cartId;
+  const focusAction = focused?.dataset.action;
+  const wasClearFocused = focused === dom.clearCart;
+  let totalQuantity = 0;
+  let totalCents = 0;
+  const items = [];
+  for (const [id, quantity] of state.cart) {
+    const product = getProduct(id);
+    if (!product) continue;
+    const busy = state.locks.has(id);
+    // Считаем в центах, чтобы избежать погрешностей при сложении цен.
+    const lineCents = Math.round(product.price * 100) * quantity;
+    totalQuantity += quantity;
+    totalCents += lineCents;
+    const title = escapeHtml(product.title);
+    items.push(`<article class="cart-item" data-cart-id="${escapeHtml(id)}">
+      <a class="cart-item-image" href="${productUrl(id)}" tabindex="-1" aria-hidden="true"><img src="${escapeHtml(getThumbnail(product))}" alt="" width="88" height="88"></a>
+      <div class="cart-item-info"><a class="cart-item-title" href="${productUrl(id)}">${title}</a>
+        <span class="cart-item-price">${formatPrice(product.price)} / шт.</span>
+        <span class="cart-item-stock">На складе: ${numberFormatter.format(product.stock)} шт.</span></div>
+      <div class="cart-item-controls">
+        <div class="cart-quantity-control" role="group" aria-label="Количество: ${title}">
+          <button type="button" data-action="cart-decrease" data-product-id="${escapeHtml(id)}" aria-label="Уменьшить количество в корзине: ${title}"${busy ? " disabled" : ""}>${icon("minus")}</button>
+          <output aria-label="В корзине, штук">${numberFormatter.format(quantity)}</output>
+          <button type="button" data-action="cart-increase" data-product-id="${escapeHtml(id)}" aria-label="Увеличить количество в корзине: ${title}"${busy || quantity >= product.stock ? " disabled" : ""}>${icon("plus")}</button>
+        </div>
+        <strong class="cart-item-total">${formatPrice(lineCents / 100)}</strong>
+        <button type="button" class="icon-button danger-icon cart-remove" data-action="cart-remove" data-product-id="${escapeHtml(id)}" aria-label="Убрать из корзины: ${title}">${icon("trash")}</button>
+      </div>
+    </article>`);
+  }
+  dom.cartItems.innerHTML = items.join("");
+  dom.cartCount.textContent = numberFormatter.format(totalQuantity);
+  dom.openCart.disabled = state.status !== "ready";
+  dom.openCart.setAttribute(
+    "aria-label",
+    `Корзина: ${numberFormatter.format(totalQuantity)} ${plural(totalQuantity, "товар", "товара", "товаров")}`,
+  );
+  dom.cartTotal.textContent = formatPrice(totalCents / 100);
+  dom.cartQuantity.textContent = `${numberFormatter.format(totalQuantity)} ${plural(totalQuantity, "товар", "товара", "товаров")}`;
+  dom.cartEmpty.hidden = items.length > 0;
+  dom.cartSummary.hidden = items.length === 0;
+  dom.clearCart.hidden = items.length === 0;
+  dom.clearCart.disabled = items.length === 0;
+  if (dom.cartDialog.open && (focusId || wasClearFocused)) {
+    const row = [...dom.cartItems.querySelectorAll("[data-cart-id]")].find(
+      (item) => item.dataset.cartId === focusId,
+    );
+    const sameAction = [...(row?.querySelectorAll("button") || [])].find(
+      (button) => button.dataset.action === focusAction && !button.disabled,
+    );
+    const target =
+      sameAction ||
+      row?.querySelector("button:not(:disabled), .cart-item-title") ||
+      dom.cartItems.querySelector(".cart-item-title") ||
+      dom.cartEmpty.querySelector("[data-close-dialog]");
+    target?.focus({ preventScroll: true });
+  }
+}
+
+function changeCartQuantity(id, change, announce = false) {
+  const product = getProduct(id);
+  const key = String(id);
+  if (!product || state.status !== "ready" || state.locks.has(key)) return;
+  const quantity = cartQuantity(key) + change;
+  if (
+    !Number.isSafeInteger(quantity) ||
+    quantity < 0 ||
+    quantity > product.stock
+  )
+    return;
+  if (quantity === 0) state.cart.delete(key);
+  else state.cart.set(key, quantity);
+  dom.cartNote.textContent =
+    quantity === 0
+      ? `${product.title}: товар убран из корзины.`
+      : `${product.title}: в корзине ${numberFormatter.format(quantity)} шт.`;
+  renderCart();
+  updateCartButtons();
+  if (announce) showToast(`${product.title} — добавлено в корзину.`);
+}
+
+function removeFromCart(id) {
+  const key = String(id);
+  if (!state.cart.has(key)) return;
+  const product = getProduct(key);
+  state.cart.delete(key);
+  dom.cartNote.textContent = `${product?.title || "Товар"}: убран из корзины.`;
+  renderCart();
+  updateCartButtons();
+}
+
+function clearCart() {
+  state.cart.clear();
+  dom.cartNote.textContent = "Корзина очищена.";
+  renderCart();
+  updateCartButtons();
 }
 
 function allCategories() {
@@ -333,6 +507,7 @@ function cardMarkup(product, compact = false) {
           <button type="button" data-action="increase-stock" data-product-id="${id}" aria-label="Увеличить запас: ${title}"${busy || product.stock >= Number.MAX_SAFE_INTEGER ? " disabled" : ""}>${icon("plus")}</button>
         </div>
       </div>
+      ${cartButtonMarkup(product)}
       <div class="card-actions">
         <a class="details-link" href="${productUrl(product.id)}">Подробнее ${icon("arrow-right")}</a>
         <button class="icon-button" type="button" data-action="edit" data-product-id="${id}" title="Редактировать товар" aria-label="Редактировать: ${title}"${busy ? " disabled" : ""}>${icon("edit")}</button>
@@ -543,6 +718,7 @@ function renderDetail(id, shouldFocus = false) {
         <p class="detail-stock${product.stock === 0 ? " out-of-stock" : ""}">${icon(product.stock > 0 ? "check" : "box")}${product.stock > 0 ? `В наличии · ${numberFormatter.format(product.stock)} шт. на складе` : "Нет в наличии"}</p>
         ${product.description ? `<p class="detail-description">${escapeHtml(product.description)}</p>` : '<p class="detail-description muted">Описание пока не добавлено.</p>'}
         ${product.sku ? `<p class="detail-sku muted">Артикул: ${escapeHtml(product.sku)}</p>` : ""}
+        ${cartButtonMarkup(product, true)}
         <div class="detail-actions">
           <button type="button" class="button button-primary" data-action="edit" data-product-id="${escapeHtml(product.id)}"${busy ? " disabled" : ""}>${icon("edit")}Редактировать товар</button>
           <button type="button" class="button button-secondary delete-product-button" data-action="delete" data-product-id="${escapeHtml(product.id)}"${busy ? " disabled" : ""}>${icon("trash")}Удалить товар</button>
@@ -592,6 +768,8 @@ function getRoute() {
 
 function renderRoute({ navigation = false } = {}) {
   const route = getRoute();
+  reconcileCart();
+  renderCart();
   const returningToCatalog =
     route.view === "catalog" && state.previousView === "product";
   dom.catalog.hidden = route.view !== "catalog";
@@ -1029,6 +1207,11 @@ function bindEvents() {
     updateCatalogFilters();
   });
   dom.add.addEventListener("click", () => openProductForm());
+  dom.openCart.addEventListener("click", () => {
+    renderCart();
+    dom.cartDialog.showModal();
+  });
+  dom.clearCart.addEventListener("click", clearCart);
   dom.form.addEventListener("submit", saveProduct);
   dom.confirmDelete.addEventListener("click", confirmDelete);
   element("about-button")?.addEventListener("click", () =>
@@ -1090,6 +1273,18 @@ function bindEvents() {
       if (action.disabled) return;
       const id = action.dataset.productId;
       switch (action.dataset.action) {
+        case "add-to-cart":
+          changeCartQuantity(id, 1, true);
+          break;
+        case "cart-increase":
+          changeCartQuantity(id, 1);
+          break;
+        case "cart-decrease":
+          changeCartQuantity(id, -1);
+          break;
+        case "cart-remove":
+          removeFromCart(id);
+          break;
         case "add":
           openProductForm();
           break;
@@ -1125,6 +1320,13 @@ function bindEvents() {
       return;
     }
     const productLink = event.target.closest('a[href^="#product/"]');
+    if (productLink && dom.cartDialog.contains(productLink)) {
+      dom.cartDialog.close();
+      if (productLink.hash === window.location.hash) {
+        event.preventDefault();
+        renderRoute({ navigation: true });
+      }
+    }
     if (productLink && getRoute().view === "catalog")
       state.catalogScroll = window.scrollY;
     const card = event.target.closest(".product-card[data-product-id]");
@@ -1158,7 +1360,12 @@ function bindEvents() {
     },
     true,
   );
-  for (const dialog of [dom.formDialog, dom.deleteDialog, dom.aboutDialog]) {
+  for (const dialog of [
+    dom.formDialog,
+    dom.deleteDialog,
+    dom.aboutDialog,
+    dom.cartDialog,
+  ]) {
     dialog.addEventListener("cancel", (event) => {
       if (
         (dialog === dom.formDialog && state.formSaving) ||
