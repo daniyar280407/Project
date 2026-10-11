@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#216b45" />
+    <meta
+      name="description"
+      content="Свежий Маркет — каталог продуктов и товаров на каждый день. Поиск, подробные описания и удобное управление ассортиментом."
+    />
+    <title>Свежий Маркет — хорошие продукты каждый день</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="src/app.js"></script>
+  </head>
+  <body>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="icon-library"
+      aria-hidden="true"
+    >
+      <symbol id="icon-leaf" viewBox="0 0 24 24">
+        <path d="M20 4C9 2 3 7 5 14c2 6 14 7 15-10Z" />
+        <path d="M4 21 15 10M9 16l-1-5m5 1 4 1" />
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <circle cx="10.5" cy="10.5" r="6.5" />
+        <path d="m16 16 4.5 4.5" />
+      </symbol>
+      <symbol id="icon-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14" />
+      </symbol>
+      <symbol id="icon-minus" viewBox="0 0 24 24"><path d="M5 12h14" /></symbol>
+      <symbol id="icon-edit" viewBox="0 0 24 24">
+        <path d="m15 5 4 4M4 20l5-1L20 8a2.8 2.8 0 0 0-4-4L5 15l-1 5Z" />
+      </symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24">
+        <path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7" />
+      </symbol>
+      <symbol id="icon-arrow-left" viewBox="0 0 24 24">
+        <path d="M20 12H4m6-6-6 6 6 6" />
+      </symbol>
+      <symbol id="icon-arrow-right" viewBox="0 0 24 24">
+        <path d="M4 12h16m-6-6 6 6-6 6" />
+      </symbol>
+      <symbol id="icon-close" viewBox="0 0 24 24">
+        <path d="m6 6 12 12M6 18 18 6" />
+      </symbol>
+      <symbol id="icon-box" viewBox="0 0 24 24">
+        <path
+          d="m12 3 9 5v9l-9 5-9-5V8l9-5Zm0 10L3 8m9 5 9-5m-9 5v9M7.5 5.5l9 5"
+        />
+      </symbol>
+      <symbol id="icon-star" viewBox="0 0 24 24">
+        <path
+          d="m12 3 2.8 5.8 6.4.9-4.6 4.5 1.1 6.4-5.7-3-5.7 3 1.1-6.4-4.6-4.5 6.4-.9L12 3Z"
+        />
+      </symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24">
+        <path d="m5 12 4 4L19 6" />
+      </symbol>
+      <symbol id="icon-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v6m0-10v1" />
+      </symbol>
+      <symbol id="icon-grid" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
+      </symbol>
+      <symbol id="icon-truck" viewBox="0 0 24 24">
+        <path d="M1 5h13v12H1V5Zm13 4h5l3 4v4h-8" />
+        <circle cx="5" cy="18" r="2" />
+        <circle cx="18" cy="18" r="2" />
+      </symbol>
+      <symbol id="icon-shield" viewBox="0 0 24 24">
+        <path d="m12 2 8 4v6c0 5-8 10-8 10S4 17 4 12V6l8-4Z" />
+        <path d="m8 12 3 3 5-6" />
+      </symbol>
+      <symbol id="icon-image" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="3" />
+        <circle cx="8" cy="8" r="1.5" />
+        <path d="m3 17 6-6 4 4 3-3 5 5" />
+      </symbol>
+      <symbol id="icon-chevron" viewBox="0 0 24 24">
+        <path d="m6 9 6 6 6-6" />
+      </symbol>
+    </svg>
+
+    <a class="skip-link" href="#catalog-heading">Перейти к каталогу</a>
+    <div class="top-strip">
+      <div class="container top-strip-inner">
+        <span
+          ><svg class="icon" aria-hidden="true"><use href="#icon-leaf" /></svg>
+          Всё хорошее начинается со свежего</span
+        ><span class="demo-label">Учебный магазин</span>
+      </div>
+    </div>
+    <header class="site-header">
+      <div class="container header-main">
+        <a class="brand" href="#catalog" aria-label="Свежий Маркет — главная">
+          <span class="brand-mark"
+            ><svg class="icon" aria-hidden="true"><use href="#icon-leaf" /></svg
+          ></span>
+          <span
+            >Свежий<span class="brand-second"
+              >Маркет<span class="brand-dot">.</span></span
+            ></span
+          >
+        </a>
+        <div class="search-box" role="search">
+          <svg class="icon" aria-hidden="true"><use href="#icon-search" /></svg>
+          <label for="search-input" class="sr-only"
+            >Найти товар по названию</label
+          >
+          <input
+            id="search-input"
+            type="search"
+            placeholder="Что ищем сегодня?"
+            autocomplete="off"
+          />
+          <button
+            id="clear-search"
+            class="icon-button"
+            type="button"
+            aria-label="Очистить поиск"
+            hidden
+          >
+            <svg class="icon" aria-hidden="true">
+              <use href="#icon-close" />
+            </svg>
+          </button>
+        </div>
+        <button
+          id="add-product"
+          class="button button-primary"
+          type="button"
+          disabled
+        >
+          <svg class="icon" aria-hidden="true"><use href="#icon-plus" /></svg
+          ><span>Добавить товар</span>
+        </button>
+      </div>
+      <div class="container header-bottom">
+        <nav class="main-nav" aria-label="Главная навигация">
+          <a id="catalog-link" class="nav-link" href="#catalog"
+            ><svg class="icon" aria-hidden="true"><use href="#icon-grid" /></svg
+            >Каталог</a
+          >
+          <a
+            id="groceries-link"
+            class="nav-link"
+            href="#catalog"
+            data-category="groceries"
+            >Продукты</a
+          >
+          <button id="about-button" class="nav-link" type="button">
+            О магазине
+          </button>
+        </nav>
+        <span class="header-caption"
+          >Выбирайте. Узнавайте. Добавляйте своё.</span
+        >
+      </div>
+    </header>
+
+    <main class="container main-content">
+      <div class="session-notice">
+        <svg class="icon" aria-hidden="true"><use href="#icon-info" /></svg
+        ><span
+          >Ваши изменения сохраняются только до перезагрузки страницы.</span
+        >
+      </div>
+      <section class="store-stats" aria-label="Статистика магазина">
+        <div class="stat">
+          <span class="stat-icon"
+            ><svg class="icon" aria-hidden="true"><use href="#icon-box" /></svg
+          ></span>
+          <div>
+            <strong id="stat-products">—</strong><span>товаров в каталоге</span>
+          </div>
+        </div>
+        <div class="stat">
+          <span class="stat-icon"
+            ><svg class="icon" aria-hidden="true"><use href="#icon-grid" /></svg
+          ></span>
+          <div>
+            <strong id="stat-categories">—</strong
+            ><span>категорий на выбор</span>
+          </div>
+        </div>
+        <div class="stat stat-value">
+          <span class="stat-icon"
+            ><svg class="icon" aria-hidden="true"><use href="#icon-leaf" /></svg
+          ></span>
+          <div>
+            <strong id="stat-value">—</strong
+            ><span>стоимость товаров на складе</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="catalog-view" aria-labelledby="catalog-heading">
+        <div id="hero" class="hero">
+          <div class="hero-copy">
+            <span class="hero-label"
+              ><svg class="icon" aria-hidden="true">
+                <use href="#icon-leaf" /></svg
+              >Свежий взгляд на покупки</span
+            >
+            <h1>Хорошие продукты.<br />Хороший день.</h1>
+            <p>
+              Соберите всё для любимых блюд<br class="desktop-break" />
+              и маленьких повседневных радостей.
+            </p>
+            <a
+              id="hero-browse"
+              href="#catalog"
+              data-category="groceries"
+              class="button button-primary"
+              >Выбрать продукты<svg class="icon" aria-hidden="true">
+                <use href="#icon-arrow-right" /></svg
+            ></a>
+          </div>
+          <div class="hero-photo">
+            <img
+              src="assets/hero-market.jpg"
+              alt="Свежие овощи, зелень и яркие перцы на прилавке"
+              width="800"
+              height="600"
+              fetchpriority="high"
+            /><span class="hero-photo-label"
+              ><svg class="icon" aria-hidden="true">
+                <use href="#icon-leaf" /></svg
+              >Больше красок на вашем столе</span
+            >
+          </div>
+        </div>
+
+        <div class="catalog-heading-row">
+          <div>
+            <span class="section-kicker">Найдётся что-то хорошее</span>
+            <h2 id="catalog-heading" tabindex="-1">
+              Наш каталог
+              <span id="results-count" class="count-badge" aria-live="polite"
+                >…</span
+              >
+            </h2>
+          </div>
+          <span id="active-filter-label" class="muted">Все товары</span>
+        </div>
+        <div
+          id="category-chips"
+          class="category-chips"
+          aria-label="Быстрый выбор категории"
+        ></div>
+        <div class="catalog-toolbar">
+          <div class="select-group">
+            <label for="category-select">Категория</label
+            ><select id="category-select">
+              <option value="all">Все категории</option>
+            </select>
+          </div>
+          <div class="select-group sort-group">
+            <label for="sort-select">Сортировка</label
+            ><select id="sort-select">
+              <option value="featured">Сначала продукты</option>
+              <option value="title-asc">Название: А–Я</option>
+              <option value="title-desc">Название: Я–А</option>
+              <option value="price-asc">Цена: по возрастанию</option>
+              <option value="price-desc">Цена: по убыванию</option>
+              <option value="rating-desc">Рейтинг: высокий</option>
+              <option value="rating-asc">Рейтинг: низкий</option>
+            </select>
+          </div>
+          <button id="reset-filters" class="text-button" type="button" hidden>
+            Сбросить фильтры<svg class="icon" aria-hidden="true">
+              <use href="#icon-close" />
+            </svg>
+          </button>
+        </div>
+        <div id="catalog-status" role="status" aria-live="polite">
+          <div class="empty-state">
+            <span class="loading-spinner"></span>
+            <h3>Наполняем полки…</h3>
+            <p>Загружаем товары для вашего каталога.</p>
+          </div>
+        </div>
+        <div id="product-grid" class="product-grid" aria-label="Товары"></div>
+      </section>
+
+      <section
+        id="product-view"
+        hidden
+        aria-label="Подробная информация о товаре"
+      ></section>
+      <noscript
+        ><p class="form-error">
+          Чтобы посмотреть каталог, включите JavaScript в настройках браузера.
+        </p></noscript
+      >
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <a href="#catalog" class="footer-brand"
+          ><svg class="icon" aria-hidden="true"><use href="#icon-leaf" /></svg
+          >Свежий Маркет</a
+        >
+        <p>Хорошие продукты — ближе, чем кажется.</p>
+        <span>Сделано для вашего удобства</span>
+      </div>
+    </footer>
+
+    <dialog
+      id="product-dialog"
+      class="modal"
+      aria-labelledby="form-title"
+      aria-describedby="form-description"
+    >
+      <div class="modal-header">
+        <div>
+          <h2 id="form-title">Добавить товар</h2>
+          <p id="form-description">Пополните полки чем-нибудь хорошим.</p>
+        </div>
+        <button
+          type="button"
+          class="icon-button"
+          data-close-dialog="product-dialog"
+          aria-label="Закрыть форму"
+        >
+          <svg class="icon" aria-hidden="true"><use href="#icon-close" /></svg>
+        </button>
+      </div>
+      <form id="product-form" novalidate>
+        <fieldset id="form-fields" class="form-fields">
+          <div class="form-field form-full">
+            <label for="title">Название <span aria-hidden="true">*</span></label
+            ><input
+              id="title"
+              name="title"
+              type="text"
+              required
+              maxlength="180"
+              placeholder="Например, свежая клубника"
+              aria-describedby="error-title"
+            /><span
+              id="error-title"
+              class="field-error"
+              data-error-for="title"
+            ></span>
+          </div>
+          <div class="form-field">
+            <label for="price">Цена, $ <span aria-hidden="true">*</span></label
+            ><input
+              id="price"
+              name="price"
+              type="number"
+              min="0.01"
+              step="0.01"
+              required
+              inputmode="decimal"
+              placeholder="0,00"
+              aria-describedby="error-price"
+            /><span
+              id="error-price"
+              class="field-error"
+              data-error-for="price"
+            ></span>
+          </div>
+          <div class="form-field">
+            <label for="stock"
+              >На складе, шт. <span aria-hidden="true">*</span></label
+            ><input
+              id="stock"
+              name="stock"
+              type="number"
+              min="0"
+              step="1"
+              required
+              inputmode="numeric"
+              placeholder="0"
+              aria-describedby="error-stock"
+            /><span
+              id="error-stock"
+              class="field-error"
+              data-error-for="stock"
+            ></span>
+          </div>
+          <div class="form-field">
+            <label for="category"
+              >Категория <span aria-hidden="true">*</span></label
+            ><input
+              id="category"
+              name="category"
+              list="category-options"
+              required
+              maxlength="80"
+              placeholder="Выберите или введите"
+              aria-describedby="error-category"
+            /><datalist id="category-options"></datalist
+            ><span
+              id="error-category"
+              class="field-error"
+              data-error-for="category"
+            ></span>
+          </div>
+          <div class="form-field">
+            <label for="brand">Бренд</label
+            ><input
+              id="brand"
+              name="brand"
+              type="text"
+              maxlength="100"
+              placeholder="Если указан"
+              aria-describedby="error-brand"
+            /><span
+              id="error-brand"
+              class="field-error"
+              data-error-for="brand"
+            ></span>
+          </div>
+          <div class="form-field form-full">
+            <label for="description">Описание</label
+            ><textarea
+              id="description"
+              name="description"
+              rows="3"
+              maxlength="5000"
+              placeholder="Расскажите о товаре"
+              aria-describedby="error-description"
+            ></textarea
+            ><span
+              id="error-description"
+              class="field-error"
+              data-error-for="description"
+            ></span>
+          </div>
+          <div class="form-field form-full">
+            <label for="image">Ссылка на изображение</label>
+            <div class="image-input-row">
+              <img
+                id="form-image-preview"
+                src="assets/placeholder.svg"
+                alt="Предпросмотр фотографии"
+                width="64"
+                height="64"
+              /><input
+                id="image"
+                name="image"
+                type="url"
+                placeholder="https://example.com/photo.jpg"
+                aria-describedby="error-image image-hint"
+              />
+            </div>
+            <span
+              id="error-image"
+              class="field-error"
+              data-error-for="image"
+            ></span
+            ><small id="image-hint"
+              >Необязательно. Если фото недоступно, покажем заглушку.</small
+            >
+          </div>
+        </fieldset>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="button button-secondary"
+            data-close-dialog="product-dialog"
+          >
+            Отмена</button
+          ><button
+            id="save-product"
+            type="submit"
+            class="button button-primary"
+          >
+            Добавить товар
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog
+      id="delete-dialog"
+      class="modal modal-small"
+      aria-labelledby="delete-title"
+      aria-describedby="delete-description"
+    >
+      <div class="modal-header">
+        <span class="delete-icon"
+          ><svg class="icon" aria-hidden="true">
+            <use href="#icon-trash" /></svg></span
+        ><button
+          type="button"
+          class="icon-button"
+          data-close-dialog="delete-dialog"
+          aria-label="Закрыть подтверждение"
+        >
+          <svg class="icon" aria-hidden="true"><use href="#icon-close" /></svg>
+        </button>
+      </div>
+      <h2 id="delete-title">Удалить товар?</h2>
+      <p id="delete-description">
+        «<strong id="delete-name"></strong>» исчезнет из каталога до следующей
+        перезагрузки страницы.
+      </p>
+      <p id="delete-error" class="form-error" role="alert" hidden></p>
+      <div class="modal-footer">
+        <button
+          class="button button-secondary"
+          type="button"
+          data-close-dialog="delete-dialog"
+          autofocus
+        >
+          Оставить товар</button
+        ><button id="confirm-delete" class="button button-danger" type="button">
+          Удалить товар
+        </button>
+      </div>
+    </dialog>
+
+    <dialog
+      id="about-dialog"
+      class="modal modal-small"
+      aria-labelledby="about-title"
+    >
+      <div class="modal-header">
+        <span class="brand-mark"
+          ><svg class="icon" aria-hidden="true">
+            <use href="#icon-leaf" /></svg></span
+        ><button
+          type="button"
+          class="icon-button"
+          data-close-dialog="about-dialog"
+          aria-label="Закрыть информацию"
+        >
+          <svg class="icon" aria-hidden="true"><use href="#icon-close" /></svg>
+        </button>
+      </div>
+      <h2 id="about-title">Знакомьтесь, Свежий Маркет</h2>
+      <p>
+        Здесь можно выбирать товары, изучать характеристики и самостоятельно
+        управлять ассортиментом.
+      </p>
+      <p>
+        Это учебный магазин с товарами из DummyJSON. Изменения хранятся только в
+        памяти вкладки и сбрасываются при перезагрузке.
+      </p>
+      <p>
+        Цены показаны в долларах без пересчёта. Данные и отзывы, для которых нет
+        перевода, отображаются в оригинале. Вес и размеры приведены как в
+        источнике: единицы измерения API не указывает.
+      </p>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="button button-primary"
+          data-close-dialog="about-dialog"
+        >
+          Всё понятно
+        </button>
+      </div>
+    </dialog>
+    <div
+      id="toasts"
+      class="toast-container"
+      aria-live="polite"
+      aria-atomic="false"
+    ></div>
+  </body>
+</html>

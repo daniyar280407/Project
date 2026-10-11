@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+  <title id="title">Изображение товара недоступно</title>
+  <desc id="desc">Светло-зелёная иллюстрация корзины с листом</desc>
+  <rect width="600" height="600" rx="32" fill="#f3f7ef"/>
+  <circle cx="300" cy="276" r="116" fill="#e6efdf"/>
+  <g fill="none" stroke="#8ba17a" stroke-linecap="round" stroke-linejoin="round" stroke-width="9">
+    <path d="M218 269h164l-22 88H240l-22-88Z"/>
+    <path d="m239 269 35-53m87 53-35-53M276 295v34m48-34v34"/>
+    <path d="M296 238c-4-36 19-59 61-58-1 37-20 58-61 58Z" fill="#c8dcb9"/>
+    <path d="m293 244 38-39"/>
+  </g>
+  <text x="300" y="447" text-anchor="middle" fill="#73806b" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="21">Фото появится здесь</text>
+</svg>
