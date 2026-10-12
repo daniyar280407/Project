@@ -95,3 +95,4 @@ fresh-market/
 - [Документация DummyJSON Products API](https://dummyjson.com/docs/products).
 - [Оригинал фотографии овощного прилавка на Unsplash](https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1600&q=88). Копия сохранена локально в `assets/hero-market.jpg`; фотографии самих товаров загружаются по адресам из API.
 - SVG-заглушка и иконка созданы для этого проекта.
+/
