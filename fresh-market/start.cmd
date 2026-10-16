@@ -14,7 +14,13 @@ if not errorlevel 1 (
     goto :finished
 )
 
-echo Python 3 was not found. Install Python 3 and run this file again.
+node --version >nul 2>&1
+if not errorlevel 1 (
+    node "%~dp0start_server.cjs" %*
+    goto :finished
+)
+
+echo Python 3 or Node.js was not found. Install one of them and run this file again.
 pause
 exit /b 1
 

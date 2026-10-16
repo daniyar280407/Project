@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#216b45" />
+    <meta name="description" content="Задачи команды: авторы, профили, поиск, фильтры и сортировка." />
+    <title>Задачи команды — Свежий Маркет</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="tasks.css" />
+  </head>
+  <body>
+    <svg class="icons" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C9 2 3 7 5 14c2 6 14 7 15-10ZM4 21 15 10" /></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+      <symbol id="i-checks" viewBox="0 0 24 24"><path d="m3 6 2 2 4-4m3 2h9M3 13l2 2 4-4m3 2h9M3 20l2 2 4-4m3 2h9"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l5-1L20 8a2.8 2.8 0 0 0-4-4L5 15l-1 5Z"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7"/></symbol>
+      <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3m0-17a3 3 0 0 1 0 6m4 11v-3a6 6 0 0 0-3-5"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 8a8 8 0 1 0 0 8M20 3v5h-5"/></symbol>
+    </svg>
+    <a class="skip-link" href="#tasks-heading">Перейти к задачам</a>
+    <div class="top-strip"><div class="shell"><span>Свежий подход к повседневным делам</span><span>Рабочее пространство</span></div></div>
+    <header class="header"><div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="Свежий Маркет — каталог"><span class="brand-mark"><svg class="icon"><use href="#i-leaf"/></svg></span><span>Свежий<br/>Маркет<span class="brand-dot">.</span></span></a>
+      <nav class="navigation" aria-label="Главная навигация"><a href="index.html"><svg class="icon"><use href="#i-grid"/></svg>Каталог</a><a href="tasks.html" aria-current="page"><svg class="icon"><use href="#i-checks"/></svg>Задачи</a></nav>
+      <span class="workspace-label"><span class="live-dot"></span>Командная работа</span>
+    </div></header>
+    <main class="shell main">
+      <div class="breadcrumb"><a href="index.html">Свежий Маркет</a><span>/</span><span>Задачи команды</span></div>
+      <section class="intro" aria-labelledby="tasks-heading">
+        <div><p class="eyebrow">МЕНЬШЕ ХАОСА. БОЛЬШЕ СДЕЛАННОГО.</p><h1 id="tasks-heading">Задачи и люди<span>.</span></h1><p class="intro-text">Все дела команды в одном месте. Нажмите на ник,<br class="desktop-break"/> чтобы познакомиться с автором и посмотреть его задачи.</p></div>
+        <button class="button primary" id="add-task" disabled><svg class="icon"><use href="#i-plus"/></svg>Новая задача</button>
+      </section>
+      <section class="stats" aria-label="Статистика задач">
+        <div class="stat"><span class="stat-icon green"><svg class="icon"><use href="#i-checks"/></svg></span><div><span class="stat-label">Всего задач</span><strong id="stat-total">—</strong></div></div>
+        <div class="stat"><span class="stat-icon amber"><svg class="icon"><use href="#i-clock"/></svg></span><div><span class="stat-label">В работе</span><strong id="stat-active">—</strong></div></div>
+        <div class="stat"><span class="stat-icon green"><svg class="icon"><use href="#i-check"/></svg></span><div><span class="stat-label">Выполнено</span><strong id="stat-done">—</strong></div></div>
+        <div class="stat"><span class="stat-icon blue"><svg class="icon"><use href="#i-people"/></svg></span><div><span class="stat-label">Авторов</span><strong id="stat-authors">—</strong></div></div>
+      </section>
+      <section class="board" aria-label="Список задач и фильтры">
+        <div class="board-heading"><div><h2>Все задачи <span class="count" id="results-count">—</span></h2><p id="results-description">Загружаем дела вашей команды…</p></div><button id="reload-tasks" class="icon-button" aria-label="Обновить задачи" title="Обновить задачи"><svg class="icon"><use href="#i-refresh"/></svg></button></div>
+        <form id="filters" class="filters" role="search">
+          <label class="search-field"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><span class="sr-only">Поиск по задаче или автору</span><input id="task-search" type="search" placeholder="Найти задачу или автора…" autocomplete="off"/></label>
+          <label class="select-field"><span>Автор</span><select id="author-filter" aria-label="Фильтр по автору"><option value="">Все авторы</option></select></label>
+          <label class="select-field"><span>Сортировка</span><select id="task-sort" aria-label="Сортировка задач"><option value="id-asc">Сначала старые</option><option value="id-desc">Сначала новые</option><option value="title-asc">Название: А → Я</option><option value="title-desc">Название: Я → А</option><option value="author-asc">По автору</option><option value="status">Сначала невыполненные</option></select></label>
+        </form>
+        <div class="tabs-row"><div class="status-tabs" role="group" aria-label="Фильтр по статусу"><button class="status-tab selected" data-status="all" aria-pressed="true">Все <span id="tab-all">0</span></button><button class="status-tab" data-status="active" aria-pressed="false">В работе <span id="tab-active">0</span></button><button class="status-tab" data-status="done" aria-pressed="false">Выполнено <span id="tab-done">0</span></button></div><button class="text-button" id="reset-filters" hidden>Сбросить фильтры</button></div>
+        <p id="authors-warning" class="inline-warning" role="status" hidden></p>
+        <div class="table-labels" aria-hidden="true"><span>ЗАДАЧА</span><span>АВТОР</span><span>СТАТУС</span><span></span></div>
+        <div id="task-list" aria-live="polite" aria-busy="true"><div class="loading-state"><span class="spinner"></span><p>Загружаем задачи…</p></div></div>
+        <div class="pagination" id="pagination" hidden><span id="page-summary"></span><div><button class="page-button" id="previous-page" aria-label="Предыдущая страница">←</button><span id="page-number"></span><button class="page-button" id="next-page" aria-label="Следующая страница">→</button></div></div>
+      </section>
+      <footer class="footer"><span><span class="live-dot"></span>Маленькие шаги. Большие результаты.</span><a href="index.html">Вернуться в каталог <span aria-hidden="true">↗</span></a></footer>
+      <noscript><p class="inline-warning">Для работы с задачами включите JavaScript в браузере.</p></noscript>
+    </main>
+    <dialog id="profile-dialog" class="profile-dialog" aria-labelledby="profile-title">
+      <div class="profile-header"><span class="eyebrow">ПРОФИЛЬ АВТОРА</span><button class="icon-button" data-close="profile-dialog" aria-label="Закрыть профиль" autofocus><svg class="icon"><use href="#i-close"/></svg></button></div>
+      <div id="profile-content"><h2 id="profile-title" class="sr-only">Информация о пользователе</h2></div>
+      <div id="profile-notice" class="profile-notice" role="status" hidden></div>
+    </dialog>
+    <dialog id="task-dialog" class="form-dialog" aria-labelledby="task-form-title">
+      <form id="task-form"><div class="form-heading"><h2 id="task-form-title">Новая задача</h2><button type="button" class="icon-button" data-close="task-dialog" aria-label="Закрыть форму"><svg class="icon"><use href="#i-close"/></svg></button></div><label class="form-field">Что нужно сделать?<textarea id="task-title" name="todo" required minlength="2" maxlength="300" rows="3" placeholder="Например, подготовить проект к защите"></textarea></label><label class="form-field">Автор<select id="task-author" name="userId" required></select></label><label class="checkbox-label"><input type="checkbox" id="task-completed" name="completed"/>Задача уже выполнена</label><p class="form-error" id="form-error" role="alert" hidden></p><div class="form-actions"><button type="button" class="button secondary" data-close="task-dialog">Отмена</button><button type="submit" class="button primary" id="save-task">Создать задачу</button></div></form>
+    </dialog>
+    <dialog id="delete-dialog" class="form-dialog" aria-labelledby="delete-title"><h2 id="delete-title">Удалить задачу?</h2><p id="delete-description" class="delete-description"></p><p class="form-error" id="delete-error" role="alert" hidden></p><div class="form-actions"><button class="button secondary" data-close="delete-dialog">Отмена</button><button id="confirm-delete" class="button danger">Удалить</button></div></dialog>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <script>
+      const list = document.getElementById('task-list');
+      if (location.protocol === 'file:') {
+        list.innerHTML = '<div class="empty-state"><h3>Откройте сайт через сервер</h3><p>Запустите start.cmd в папке fresh-market и перейдите в раздел «Задачи».</p></div>';
+        list.setAttribute('aria-busy', 'false');
+      } else {
+        import('./src/tasksApp.js').then(module => module.startTasksApp()).catch(() => {
+          list.innerHTML = '<div class="empty-state"><h3>Не удалось запустить страницу</h3><p>Обновите страницу. Проверьте, что файлы src/tasksApp.js и src/tasksApi.js доступны.</p><button class="button secondary" onclick="location.reload()">Обновить страницу</button></div>';
+          list.setAttribute('aria-busy', 'false');
+        });
+      }
+    </script>
+  </body>
+</html>
